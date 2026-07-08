@@ -1,0 +1,50 @@
+# Progress Tracker
+
+Update this file after every meaningful implementation change.
+
+## Current Phase
+
+- Build foundation and core prototype flow.
+
+## Current Goal
+
+- Improve the Next.js prototype using the Six-File Context methodology and prepare the repo for GitHub review.
+
+## Completed
+
+- Created Next.js App Router project.
+- Added mock domain entities and mock dataset.
+- Added app shell, login, portfolio, data, coworker, hands, approvals, runs, customers, and settings screens.
+- Added mock API routes.
+- Added service and repository layer.
+- Added system design document.
+- Added Six-File Context files and agent entry point.
+
+## In Progress
+
+- Polish UI, navigation, docs, and repository readiness.
+
+## Next Up
+
+- Add build-plan spec file.
+- Run typecheck and production build.
+- Create first local commit without co-author metadata.
+- Ask before any GitHub push.
+
+## Open Questions
+
+- Awaiting current-platform screenshots for UI improvement pass.
+- Deployment target assumed to be Vercel.
+
+## Architecture Decisions
+
+- Use mock data only.
+- Use Next.js API routes to show backend contracts.
+- Use services and repositories to avoid route handlers owning business logic.
+- Use custom UI primitives instead of a heavy component framework.
+
+## Session Notes
+
+- User asked for npm/npx only, not pnpm.
+- User asked to remove any Codex co-author tag from commits.
+- User asked to ask before every push to GitHub.
