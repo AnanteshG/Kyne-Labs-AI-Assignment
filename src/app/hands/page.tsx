@@ -11,7 +11,7 @@ export default function HandsPage() {
     <AppShell>
       <PageHeader
         eyebrow="Banking Hands"
-        title="Lifecycle of regulated customer operations"
+        title="Regulated customer operations"
         description="Track each hand from draft to review, approval, execution, and completion."
       />
       <Card>

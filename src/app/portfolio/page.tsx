@@ -5,6 +5,7 @@ import { Metric } from "@/components/ui/Metric";
 import { Badge } from "@/components/ui/Badge";
 import { Button } from "@/components/ui/Button";
 import { PageHeader } from "@/components/ui/PageHeader";
+import { Delta, DonutMeter, MiniSparkline, ProgressBar } from "@/components/ui/TremorPrimitives";
 import { formatCurrency, formatNumber, formatPercent } from "@/lib/utils";
 import { hands, portfolio } from "@/server/mock-db";
 
@@ -23,21 +24,35 @@ export default function PortfolioPage() {
       />
 
       <div className="grid gap-5 md:grid-cols-2 xl:grid-cols-5">
-        <Metric accent="blue" label="Accounts" value={formatNumber(portfolio.totalAccounts)} helper="Active customer portfolio" />
-        <Metric label="Total exposure" value={formatCurrency(portfolio.totalExposure)} helper="Across all buckets" />
-        <Metric accent="orange" label="At-risk exposure" value={formatCurrency(portfolio.atRiskExposure)} helper="Needs governed outreach" />
+        <Metric accent="blue" label="Accounts" value={formatNumber(portfolio.totalAccounts)} helper="Active customers" />
+        <Metric label="Exposure" value={formatCurrency(portfolio.totalExposure)} helper="Total outstanding" />
+        <Metric accent="orange" label="At risk" value={formatCurrency(portfolio.atRiskExposure)} helper="Needs outreach" />
         <Metric accent="green" label="Promise-to-pay" value={formatPercent(portfolio.promiseToPayRate)} helper="Last 14 days" />
-        <Metric accent="amber" label="Contactable" value={formatPercent(portfolio.contactableRate)} helper="Consent valid or reviewable" />
+        <Metric accent="amber" label="Contactable" value={formatPercent(portfolio.contactableRate)} helper="Consent valid" />
       </div>
 
-      <Card className="mt-8 border-blue-200 bg-blue-50/50">
-        <div className="grid gap-6 lg:grid-cols-[1fr_320px] lg:items-center">
+      <Card className="mt-8 border-blue-200 bg-gradient-to-br from-blue-50 via-white to-white">
+        <div className="grid gap-8 lg:grid-cols-[1fr_340px] lg:items-center">
           <div>
-            <p className="text-xs font-semibold uppercase tracking-wide text-blue-700">Today&apos;s operating brief</p>
-            <h2 className="mt-2 text-xl font-semibold text-ink">30-59 DPD is improving, but voice fallback is blocked by consent policy.</h2>
-            <p className="mt-2 text-sm leading-6 text-slate-700">
+            <p className="text-xs font-semibold uppercase tracking-wide text-blue-700">Today&apos;s brief</p>
+            <h2 className="mt-3 text-2xl font-semibold tracking-tight text-ink">30-59 DPD is improving. Voice fallback needs consent review.</h2>
+            <p className="mt-3 text-sm leading-6 text-slate-700">
               Prioritize SMS/email follow-up for contactable customers and route voice exceptions through compliance before the next run.
             </p>
+            <div className="mt-5 grid gap-3 sm:grid-cols-3">
+              <div className="rounded-xl border border-blue-100 bg-white p-4">
+                <p className="text-xs text-muted">Recovered exposure</p>
+                <p className="mt-2 text-xl font-semibold text-ink">$1.9M</p>
+              </div>
+              <div className="rounded-xl border border-blue-100 bg-white p-4">
+                <p className="text-xs text-muted">Policy suppressions</p>
+                <p className="mt-2 text-xl font-semibold text-ink">713</p>
+              </div>
+              <div className="rounded-xl border border-blue-100 bg-white p-4">
+                <p className="text-xs text-muted">Next queue</p>
+                <p className="mt-2 text-xl font-semibold text-ink">Approvals</p>
+              </div>
+            </div>
           </div>
           <div className="grid gap-2">
             <Link href="/data"><Button variant="secondary" className="w-full">Resolve readiness blockers</Button></Link>
@@ -46,25 +61,19 @@ export default function PortfolioPage() {
         </div>
       </Card>
 
-      <div className="mt-8 grid gap-8 xl:grid-cols-[1.25fr_0.75fr]">
+      <div className="mt-8 grid gap-8 xl:grid-cols-[1.2fr_0.8fr]">
         <Card>
-          <CardHeader title="Delinquency buckets" eyebrow="Portfolio" />
+          <CardHeader title="Delinquency movement" eyebrow="Portfolio" action={<Badge tone="info">June 1 - June 30</Badge>} />
           <div className="grid gap-4">
             {portfolio.delinquencyBuckets.map((bucket, index) => (
               <Link key={bucket.label} href="/workspace" className="rounded-xl border border-line bg-white p-5 transition hover:border-blue-300 hover:bg-blue-50/40">
-                <div className="flex flex-wrap items-center justify-between gap-3">
+                <div className="grid gap-4 md:grid-cols-[180px_1fr_80px] md:items-center">
                   <div>
                     <p className="font-semibold text-ink">{bucket.label}</p>
                     <p className="mt-1 text-sm text-muted">{formatNumber(bucket.accounts)} accounts · {formatCurrency(bucket.exposure)} exposure</p>
                   </div>
-                  <div className="flex items-center gap-3">
-                    <div className="h-2 w-32 rounded-full bg-slate-100 sm:w-44">
-                      <div className={`h-2 rounded-full ${index === 0 ? "bg-forest" : index === 1 ? "bg-cobalt" : index === 2 ? "bg-clay" : "bg-danger"}`} style={{ width: `${Math.min(95, 38 + index * 16)}%` }} />
-                    </div>
-                    <span className={bucket.trend < 0 ? "text-sm font-semibold text-success" : "text-sm font-semibold text-danger"}>
-                      {bucket.trend > 0 ? "+" : ""}{bucket.trend}%
-                    </span>
-                  </div>
+                  <ProgressBar value={Math.min(95, 38 + index * 16)} tone={index < 2 ? "blue" : index === 2 ? "amber" : "red"} />
+                  <Delta value={bucket.trend} />
                 </div>
               </Link>
             ))}
@@ -72,8 +81,14 @@ export default function PortfolioPage() {
         </Card>
 
         <Card>
-          <CardHeader title="What changed since last run" eyebrow="Run brief" />
-          <div className="space-y-4">
+          <CardHeader title="Recovery signal" eyebrow="Last run" />
+          <DonutMeter value={84} label="Contactable portfolio">
+            Consent coverage is high enough for SMS/email, with voice blocked until review.
+          </DonutMeter>
+          <div className="mt-6 rounded-xl border border-line bg-slate-50 p-4">
+            <MiniSparkline />
+          </div>
+          <div className="mt-6 space-y-4">
             {portfolio.changedSinceLastRun.map((item) => (
               <div key={item} className="rounded-xl border border-line bg-slate-50 p-4 text-sm leading-6 text-slate-700">
                 {item}

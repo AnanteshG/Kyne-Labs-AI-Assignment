@@ -5,6 +5,7 @@ import { Button } from "@/components/ui/Button";
 import { Card, CardHeader } from "@/components/ui/Card";
 import { PageHeader } from "@/components/ui/PageHeader";
 import { StatusBadge, readinessTone } from "@/components/ui/Status";
+import { ProgressBar } from "@/components/ui/TremorPrimitives";
 import { artifacts } from "@/server/mock-db";
 
 const messages = [
@@ -19,19 +20,19 @@ export default function WorkspacePage() {
       <PageHeader
         eyebrow="Coworker workspace"
         title="Draft a Banking Hand with evidence"
-        description="Turn an operating goal into audience, channel, schedule, message, policy, and approval artifacts."
+        description="Turn an operating goal into audience, channel, schedule, message, policy, and approval decisions."
         actions={
         <Link href="/hands/h1">
           <Button>Create draft hand</Button>
         </Link>
         }
       />
-      <div className="grid gap-8 xl:grid-cols-[0.75fr_1.25fr]">
+      <div className="grid gap-8 xl:grid-cols-[0.72fr_1.28fr]">
         <Card className="min-h-[640px] border-slate-300">
           <CardHeader title="Conversation" eyebrow="Coworker" />
           <div className="space-y-5">
             {messages.map((message) => (
-              <div key={message.body} className={message.speaker === "Operator" ? "ml-8 rounded-lg bg-ink p-4 text-white" : "mr-8 rounded-lg border border-line bg-slate-50 p-4"}>
+              <div key={message.body} className={message.speaker === "Operator" ? "ml-8 rounded-xl bg-blue-600 p-4 text-white shadow-sm" : "mr-8 rounded-xl border border-line bg-white p-4 shadow-tremor"}>
                 <p className="text-xs font-semibold uppercase tracking-wide opacity-75">{message.speaker}</p>
                 <p className="mt-2 text-sm leading-6">{message.body}</p>
               </div>
@@ -51,6 +52,9 @@ export default function WorkspacePage() {
                   <StatusBadge label={artifact.status} tone={readinessTone(artifact.status)} />
                 </div>
                 <p className="mt-3 text-sm leading-6 text-slate-600">{artifact.summary}</p>
+                <div className="mt-4">
+                  <ProgressBar value={artifact.status === "ready" ? 100 : artifact.status === "review" ? 62 : 30} tone={artifact.status === "ready" ? "green" : artifact.status === "review" ? "amber" : "red"} />
+                </div>
               </div>
             ))}
           </div>

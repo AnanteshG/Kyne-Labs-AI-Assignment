@@ -5,22 +5,23 @@ const config: Config = {
   theme: {
     extend: {
       colors: {
-        ink: "#172033",
-        muted: "#64748b",
-        line: "#d9e2ec",
-        canvas: "#f6f8fb",
+        ink: "#111827",
+        muted: "#6b7280",
+        line: "#e5e7eb",
+        canvas: "#f8fafc",
         panel: "#ffffff",
-        cobalt: "#2457c5",
+        cobalt: "#2563eb",
         forest: "#0f766e",
-        plum: "#7c3aed",
+        plum: "#6d28d9",
         clay: "#b45309",
-        success: "#118c5a",
-        warning: "#b7791f",
-        danger: "#c2410c"
+        success: "#059669",
+        warning: "#d97706",
+        danger: "#dc2626"
       },
       boxShadow: {
         panel: "0 1px 2px rgba(15, 23, 42, 0.06)",
-        raised: "0 18px 45px rgba(15, 23, 42, 0.08)"
+        raised: "0 18px 45px rgba(15, 23, 42, 0.08)",
+        tremor: "0 1px 2px rgba(0, 0, 0, 0.04), 0 1px 3px rgba(0, 0, 0, 0.08)"
       }
     }
   },

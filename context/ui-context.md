@@ -2,7 +2,7 @@
 
 ## Visual Direction
 
-The interface should feel like a serious banking operations cockpit: quiet, dense, readable, and trustworthy. It should avoid marketing-style hero layouts, decorative gradients, and generic AI chat visual language.
+The interface should feel like a serious banking operations cockpit with a Tremor-inspired analytics style: light surfaces, crisp cards, clear metric hierarchy, progress bars, compact charts, and confident blue/green status accents.
 
 ## Color Tokens
 
@@ -32,10 +32,11 @@ The interface should feel like a serious banking operations cockpit: quiet, dens
 ## Layout Patterns
 
 - Persistent left sidebar on desktop.
-- Sticky top context bar with operating mode and readiness signals.
+- Sticky top context bar with operating mode, readiness signals, and a journey stepper.
 - Full-width page layouts with constrained spacing.
 - Cards are for individual operational panels only.
 - Tables are preferred for repeated operational records.
+- Tables become card lists on mobile.
 - Timelines are preferred for run and audit events.
 
 ## Component Rules
@@ -43,5 +44,6 @@ The interface should feel like a serious banking operations cockpit: quiet, dens
 - Use rounded-md cards, buttons, badges, and panels.
 - Use badges for status, risk, approval, and mode.
 - Use metric tiles for portfolio and run summaries.
+- Use progress bars, compact sparkline charts, and donut meters where they clarify operational movement.
 - Use lucide icons in shell/navigation.
 - Avoid nested cards and decorative UI.

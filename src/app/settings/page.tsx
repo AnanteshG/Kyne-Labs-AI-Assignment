@@ -14,7 +14,7 @@ export default function SettingsPage() {
     <AppShell>
       <PageHeader
         eyebrow="Settings"
-        title="Admin controls that do not belong in governance flow"
+        title="Workspace configuration"
         description="Manage teams, integrations, routing, and tenant-level configuration."
       />
       <div className="grid gap-6">
