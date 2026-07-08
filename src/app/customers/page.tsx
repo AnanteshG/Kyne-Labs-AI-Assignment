@@ -4,6 +4,7 @@ import { Badge } from "@/components/ui/Badge";
 import { Card, CardHeader } from "@/components/ui/Card";
 import { PageHeader } from "@/components/ui/PageHeader";
 import { riskTone } from "@/components/ui/Status";
+import { AreaTrend, BarMeterList } from "@/components/ui/TremorPrimitives";
 import { customers } from "@/server/mock-db";
 import { formatCurrency } from "@/lib/utils";
 
@@ -15,6 +16,20 @@ export default function CustomersPage() {
         title="Operational customer context"
         description="Inspect account status, consent, risk, and recommended next actions."
       />
+      <div className="mb-8 grid gap-6 xl:grid-cols-[1fr_1fr]">
+        <AreaTrend label="Contactability movement" tone="green" values={[61, 63, 66, 64, 69, 72, 74, 78]} />
+        <Card>
+          <CardHeader title="Portfolio segments" eyebrow="Customer mix" />
+          <BarMeterList
+            tone="blue"
+            items={[
+              { label: "Contactable", value: Math.round((customers.filter((customer) => customer.contactable).length / customers.length) * 100), helper: "Consent and policy clear" },
+              { label: "Valid consent", value: Math.round((customers.filter((customer) => customer.consent === "valid").length / customers.length) * 100), helper: "Channel eligible" },
+              { label: "High risk", value: Math.round((customers.filter((customer) => customer.risk === "high").length / customers.length) * 100), helper: "Needs attention" }
+            ]}
+          />
+        </Card>
+      </div>
       <Card>
         <CardHeader title="Customers in active portfolio" eyebrow="Embedded and standalone view" />
         <div className="grid gap-4 md:hidden">
@@ -23,7 +38,7 @@ export default function CustomersPage() {
               <div className="flex items-start justify-between gap-3">
                 <div>
                   <p className="font-semibold text-blue-700">{customer.name}</p>
-                  <p className="mt-2 text-sm text-muted">{customer.segment} · {customer.dpd} DPD · {formatCurrency(customer.balance)}</p>
+                  <p className="mt-2 text-sm text-muted">{customer.segment} - {customer.dpd} DPD - {formatCurrency(customer.balance)}</p>
                 </div>
                 <Badge tone={riskTone(customer.risk)}>{customer.risk}</Badge>
               </div>
@@ -36,7 +51,7 @@ export default function CustomersPage() {
           ))}
         </div>
         <div className="hidden overflow-x-auto md:block">
-          <table className="min-w-[980px] w-full text-left text-sm">
+          <table className="w-full min-w-[820px] text-left text-sm">
             <thead className="border-b border-line text-xs uppercase tracking-wide text-muted">
               <tr>
                 <th className="py-3">Customer</th>

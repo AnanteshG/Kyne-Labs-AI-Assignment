@@ -5,6 +5,7 @@ import { Card, CardHeader } from "@/components/ui/Card";
 import { Metric } from "@/components/ui/Metric";
 import { PageHeader } from "@/components/ui/PageHeader";
 import { riskTone } from "@/components/ui/Status";
+import { AreaTrend, PulseRail } from "@/components/ui/TremorPrimitives";
 import { customers, runEvents } from "@/server/mock-db";
 import { formatCurrency } from "@/lib/utils";
 
@@ -32,19 +33,14 @@ export default function CustomerDetailPage({ params }: { params: { id: string } 
       <div className="mt-8 grid gap-8 xl:grid-cols-[0.8fr_1.2fr]">
         <Card>
           <CardHeader title="Next best action" eyebrow="Policy-aware recommendation" />
+          <div className="mb-5">
+            <AreaTrend label="Repayment likelihood" tone={customer.risk === "high" ? "amber" : "green"} values={[34, 37, 35, 42, 48, 51, 56, customer.contactable ? 64 : 44]} />
+          </div>
           <p className="text-sm leading-6 text-slate-600">{customer.nextBestAction}</p>
         </Card>
         <Card>
           <CardHeader title="Recent operational events" eyebrow="Customer audit slice" />
-          <div className="space-y-3">
-            {runEvents.slice(0, 3).map((event) => (
-              <div key={event.id} className="rounded-xl border border-line p-5">
-                <p className="text-xs font-semibold text-muted">{event.at} · {event.type}</p>
-                <p className="mt-1 font-semibold text-ink">{event.label}</p>
-                <p className="mt-1 text-sm text-slate-600">{event.detail}</p>
-              </div>
-            ))}
-          </div>
+          <PulseRail items={runEvents.slice(0, 3).map((event) => ({ label: `${event.at} - ${event.label}`, detail: event.detail, tone: event.type === "hitl_required" ? "amber" : "blue" }))} />
         </Card>
       </div>
     </AppShell>

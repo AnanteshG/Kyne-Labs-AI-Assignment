@@ -2,7 +2,7 @@
 
 ## Visual Direction
 
-The interface should feel like a serious banking operations cockpit with a Tremor-inspired analytics style: light surfaces, crisp cards, clear metric hierarchy, progress bars, compact charts, and confident blue/green status accents.
+The interface should feel like a serious banking operations cockpit with a Tremor-inspired analytics style: crisp cards, clear metric hierarchy, progress bars, animated SVG trends, bar meters, flow ribbons, confident blue/green status accents, and light/dark operating modes.
 
 ## Color Tokens
 
@@ -23,7 +23,7 @@ The interface should feel like a serious banking operations cockpit with a Tremo
 
 ## Typography
 
-- Use system sans-serif fonts.
+- Use an Aptos-first system sans-serif stack.
 - Page headings are 30-36px depending on viewport.
 - Card headings are compact and functional.
 - Tables use small readable text with strong hierarchy.
@@ -31,7 +31,8 @@ The interface should feel like a serious banking operations cockpit with a Tremo
 
 ## Layout Patterns
 
-- Persistent left sidebar on desktop.
+- Persistent left sidebar on desktop with hamburger-style collapse to an icon rail.
+- Hamburger drawer navigation on mobile.
 - Sticky top context bar with operating mode, readiness signals, and a journey stepper.
 - Full-width page layouts with constrained spacing.
 - Cards are for individual operational panels only.
@@ -44,6 +45,7 @@ The interface should feel like a serious banking operations cockpit with a Tremo
 - Use rounded-md cards, buttons, badges, and panels.
 - Use badges for status, risk, approval, and mode.
 - Use metric tiles for portfolio and run summaries.
-- Use progress bars, compact sparkline charts, and donut meters where they clarify operational movement.
+- Use progress bars, compact sparkline charts, area trends, bar meters, pulse timelines, flow ribbons, and donut meters where they clarify operational movement.
+- Keep animations subtle and operational: draw charts, pulse live events, and reveal meters without distracting from review work.
 - Use lucide icons in shell/navigation.
 - Avoid nested cards and decorative UI.

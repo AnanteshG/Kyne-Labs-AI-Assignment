@@ -6,6 +6,7 @@ import { Button } from "@/components/ui/Button";
 import { Card, CardHeader } from "@/components/ui/Card";
 import { PageHeader } from "@/components/ui/PageHeader";
 import { approvalTone, handTone, riskTone } from "@/components/ui/Status";
+import { AreaTrend, FlowRibbon } from "@/components/ui/TremorPrimitives";
 import { approvals, hands } from "@/server/mock-db";
 
 const lifecycle = ["draft", "governance_review", "approved", "running", "complete"];
@@ -22,7 +23,7 @@ export default function HandDetailPage({ params }: { params: { id: string } }) {
         eyebrow="Hand detail"
         title={hand.name}
         description="Review audience, channels, approvals, message content, and execution readiness."
-        actions={<div className="flex gap-2">
+        actions={<div className="flex flex-wrap gap-2">
           <Link href="/approvals"><Button variant="secondary">Open approvals</Button></Link>
           <Link href="/runs/r1"><Button>Monitor run</Button></Link>
         </div>}
@@ -30,14 +31,13 @@ export default function HandDetailPage({ params }: { params: { id: string } }) {
       <div className="grid gap-8 xl:grid-cols-[1.2fr_0.8fr]">
         <Card>
           <CardHeader title="Lifecycle" eyebrow="Controlled publish path" action={<Badge tone={handTone(hand.status)}>{hand.status.replace(/_/g, " ")}</Badge>} />
-          <div className="grid gap-4 md:grid-cols-5">
-            {lifecycle.map((step, index) => (
-              <div key={step} className={`rounded-lg border p-3 ${index <= currentIndex ? "border-blue-200 bg-blue-50" : "border-line bg-white"}`}>
-                <p className="text-sm font-semibold capitalize text-ink">{step.replace(/_/g, " ")}</p>
-                <p className="mt-1 text-xs text-muted">{index <= currentIndex ? "Reached" : "Waiting"}</p>
-              </div>
-            ))}
-          </div>
+          <FlowRibbon
+            steps={lifecycle.slice(0, 4).map((step, index) => ({
+              label: step.replace(/_/g, " "),
+              value: index <= currentIndex ? "Reached" : "Waiting",
+              tone: index <= currentIndex ? "blue" : "amber"
+            }))}
+          />
           <div className="mt-6 grid gap-4 md:grid-cols-3">
             <div className="rounded-xl border border-line p-5">
               <p className="text-xs font-semibold uppercase tracking-wide text-muted">Audience</p>
@@ -55,10 +55,13 @@ export default function HandDetailPage({ params }: { params: { id: string } }) {
         </Card>
         <Card>
           <CardHeader title="Approval gates" eyebrow="Trust before contact" />
+          <div className="mb-5">
+            <AreaTrend label="Governance confidence" tone="green" values={[46, 52, 57, 61, 69, 72, 78, hand.approvalsResolved === hand.approvalsRequired ? 88 : 74]} />
+          </div>
           <div className="space-y-4">
             {handApprovals.map((approval) => (
               <div key={approval.id} className="rounded-xl border border-line p-5">
-                <div className="flex items-center justify-between gap-2">
+                <div className="flex flex-wrap items-center justify-between gap-2">
                   <p className="font-semibold text-ink">{approval.title}</p>
                   <Badge tone={approvalTone(approval.status)}>{approval.status.replace(/_/g, " ")}</Badge>
                 </div>

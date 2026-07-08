@@ -22,9 +22,9 @@ export function Metric({
   accent?: keyof typeof accents;
 }) {
   return (
-    <div className={cn("rounded-xl border bg-white p-5 shadow-tremor", accents[accent], className)}>
+    <div className={cn("min-w-0 rounded-xl border bg-white p-5 shadow-tremor", accents[accent], className)}>
       <p className="text-xs font-semibold uppercase tracking-wide text-muted">{label}</p>
-      <p className="mt-3 text-3xl font-semibold tracking-tight text-ink">{value}</p>
+      <p className="mt-3 break-words text-2xl font-semibold tracking-tight text-ink sm:text-3xl">{value}</p>
       {helper ? <p className="mt-2 text-sm leading-5 text-muted">{helper}</p> : null}
     </div>
   );

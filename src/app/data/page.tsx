@@ -3,7 +3,7 @@ import { Badge } from "@/components/ui/Badge";
 import { Button } from "@/components/ui/Button";
 import { Card, CardHeader } from "@/components/ui/Card";
 import { PageHeader } from "@/components/ui/PageHeader";
-import { ProgressBar } from "@/components/ui/TremorPrimitives";
+import { AreaTrend, BarMeterList, FlowRibbon, ProgressBar } from "@/components/ui/TremorPrimitives";
 import { StatusBadge, readinessTone } from "@/components/ui/Status";
 import { dataSources, policyPacks, validationReport } from "@/server/mock-db";
 import { formatNumber } from "@/lib/utils";
@@ -19,16 +19,15 @@ export default function DataPage() {
         <Button>Run validation</Button>
         }
       />
-      <div className="mb-8 grid gap-4 md:grid-cols-4">
-        {["Connect data", "Validate fields", "Apply policies", "Clear approvals"].map((step, index) => (
-          <div key={step} className={`rounded-xl border bg-white p-5 shadow-tremor ${index < 2 ? "border-emerald-200" : index === 2 ? "border-amber-200" : "border-red-200"}`}>
-            <p className="text-xs font-semibold uppercase tracking-wide text-muted">Step {index + 1}</p>
-            <p className="mt-2 font-semibold text-ink">{step}</p>
-            <div className="mt-4">
-              <ProgressBar value={index < 2 ? 100 : index === 2 ? 68 : 38} tone={index < 2 ? "green" : index === 2 ? "amber" : "red"} />
-            </div>
-          </div>
-        ))}
+      <div className="mb-8">
+        <FlowRibbon
+          steps={[
+            { label: "Step 1", value: "Connect data", tone: "green" },
+            { label: "Step 2", value: "Validate fields", tone: "green" },
+            { label: "Step 3", value: "Apply policies", tone: "amber" },
+            { label: "Step 4", value: "Clear approvals", tone: "red" }
+          ]}
+        />
       </div>
       <div className="grid gap-8 xl:grid-cols-[1fr_1fr]">
         <Card>
@@ -36,10 +35,10 @@ export default function DataPage() {
           <div className="space-y-3">
             {dataSources.map((source) => (
               <div key={source.id} className="rounded-xl border border-line p-5">
-                <div className="flex items-center justify-between gap-5">
-                <div>
+                <div className="flex flex-wrap items-center justify-between gap-4">
+                <div className="min-w-0">
                   <p className="font-semibold text-ink">{source.name}</p>
-                  <p className="mt-1 text-sm text-muted">{source.type} · {formatNumber(source.records)} records · {source.lastSync}</p>
+                  <p className="mt-1 text-sm text-muted">{source.type} - {formatNumber(source.records)} records - {source.lastSync}</p>
                 </div>
                 <StatusBadge label={source.status} tone={readinessTone(source.status)} />
                 </div>
@@ -55,10 +54,10 @@ export default function DataPage() {
           <div className="space-y-3">
             {policyPacks.map((pack) => (
               <div key={pack.id} className="rounded-xl border border-line p-5">
-                <div className="flex items-center justify-between gap-5">
-                <div>
+                <div className="flex flex-wrap items-center justify-between gap-4">
+                <div className="min-w-0">
                   <p className="font-semibold text-ink">{pack.name}</p>
-                  <p className="mt-1 text-sm text-muted">{pack.jurisdiction} · {pack.rules} rules · {pack.updatedAt}</p>
+                  <p className="mt-1 text-sm text-muted">{pack.jurisdiction} - {pack.rules} rules - {pack.updatedAt}</p>
                 </div>
                 <StatusBadge label={pack.status} tone={readinessTone(pack.status)} />
                 </div>
@@ -72,19 +71,16 @@ export default function DataPage() {
       </div>
       <Card className="mt-8">
         <CardHeader title="Latest validation report" eyebrow={validationReport.checkedAt} action={<Badge tone="warning">Review needed</Badge>} />
-        <div className="grid gap-4 md:grid-cols-3">
-          <div className="rounded-xl border border-emerald-200 bg-white p-5">
-            <p className="text-sm font-semibold text-emerald-800">Passed checks</p>
-            <p className="mt-2 text-2xl font-semibold">{validationReport.passed}</p>
-          </div>
-          <div className="rounded-xl border border-amber-200 bg-white p-5">
-            <p className="text-sm font-semibold text-amber-900">Warnings</p>
-            <p className="mt-2 text-2xl font-semibold">{validationReport.warnings}</p>
-          </div>
-          <div className="rounded-xl border border-red-200 bg-white p-5">
-            <p className="text-sm font-semibold text-red-700">Blockers</p>
-            <p className="mt-2 text-2xl font-semibold">{validationReport.blockers.length}</p>
-          </div>
+        <div className="grid gap-5 lg:grid-cols-[1fr_1fr]">
+          <AreaTrend label="Validation quality" tone="green" values={[72, 78, 81, 86, 84, 91, 93, 88]} />
+          <BarMeterList
+            tone="amber"
+            items={[
+              { label: "Passed checks", value: 92, helper: String(validationReport.passed) },
+              { label: "Warnings", value: 24, helper: String(validationReport.warnings) },
+              { label: "Blockers", value: 12, helper: String(validationReport.blockers.length) }
+            ]}
+          />
         </div>
         <div className="mt-5 space-y-3">
           {validationReport.blockers.map((blocker) => (

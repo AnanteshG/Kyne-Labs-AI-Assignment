@@ -22,10 +22,12 @@ Update this file after every meaningful implementation change.
 - Reviewed 17 current-platform screenshots and applied a redesign pass to the shell, portfolio, readiness, coworker, hand detail, execution, and docs.
 - Increased UI spacing, removed product-explanation copy from screens, added mobile card layouts, and verified desktop/mobile rendering with browser screenshots.
 - Rebuilt the visual system in a Tremor-inspired style with light dashboard navigation, journey stepper, progress bars, dashboard cards, and richer portfolio/readiness/coworker views.
+- Added dark mode with persisted theme preference, upgraded the global font stack, converted the sidebar into a collapsible desktop rail plus mobile hamburger drawer, and tightened responsive wrapping across dashboard pages.
+- Added reusable animated graph primitives and applied them across login, portfolio, readiness, coworker, hands, approvals, runs, customers, and settings pages to reduce box-heavy layouts.
 
 ## In Progress
 
-- Verify and prepare the Tremor-inspired UI rebuild for the next approved push.
+- Prepare the responsive shell, dark-mode update, and graph-rich UI pass for the next approved push.
 
 ## Next Up
 

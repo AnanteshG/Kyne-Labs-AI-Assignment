@@ -3,6 +3,7 @@ import { Badge } from "@/components/ui/Badge";
 import { Card, CardHeader } from "@/components/ui/Card";
 import { Metric } from "@/components/ui/Metric";
 import { PageHeader } from "@/components/ui/PageHeader";
+import { AreaTrend, BarMeterList, PulseRail } from "@/components/ui/TremorPrimitives";
 import { auditEvents, hands, runEvents, runs } from "@/server/mock-db";
 import { formatNumber } from "@/lib/utils";
 import { notFound } from "next/navigation";
@@ -28,22 +29,14 @@ export default function RunDetailPage({ params }: { params: { id: string } }) {
       <div className="mt-8 grid gap-8 xl:grid-cols-[1fr_1fr]">
         <Card>
           <CardHeader title="Live event timeline" eyebrow="SSE-style stream" action={<Badge tone="warning">Paused</Badge>} />
-          <div className="space-y-4">
-            {runEvents.map((event) => (
-              <div key={event.id} className="border-l-2 border-blue-200 pl-4">
-                <p className="text-xs font-semibold text-muted">{event.at} · {event.type}</p>
-                <p className="mt-1 font-semibold text-ink">{event.label}</p>
-                <p className="mt-1 text-sm leading-6 text-slate-600">{event.detail}</p>
-              </div>
-            ))}
-          </div>
+          <PulseRail items={runEvents.map((event) => ({ label: `${event.at} - ${event.label}`, detail: event.detail, tone: event.type === "hitl_required" ? "amber" : "blue" }))} />
         </Card>
         <Card>
           <CardHeader title="Immutable audit" eyebrow="Regulated review trail" />
           <div className="space-y-4">
             {auditEvents.map((event) => (
               <div key={event.id} className="rounded-xl border border-line p-5">
-                <p className="text-xs font-semibold text-muted">{event.at} · {event.actor}</p>
+                <p className="text-xs font-semibold text-muted">{event.at} - {event.actor}</p>
                 <p className="mt-1 font-semibold text-ink">{event.action}</p>
                 <p className="mt-1 text-sm leading-6 text-slate-600">{event.detail}</p>
               </div>
@@ -53,13 +46,9 @@ export default function RunDetailPage({ params }: { params: { id: string } }) {
       </div>
       <Card className="mt-8">
         <CardHeader title="Outcome movement" eyebrow="Flows back to portfolio" />
-        <div className="grid gap-4 md:grid-cols-3">
-          {run.outcomes.map((outcome) => (
-            <div key={outcome.label} className="rounded-xl bg-slate-50 p-5">
-              <p className="text-sm font-semibold text-muted">{outcome.label}</p>
-              <p className="mt-2 text-2xl font-semibold text-ink">{formatNumber(outcome.value)}</p>
-            </div>
-          ))}
+        <div className="grid gap-6 lg:grid-cols-[1fr_1fr]">
+          <AreaTrend label="Run throughput" tone="blue" values={[8, 14, 22, 31, 43, 52, 59, run.progress]} />
+          <BarMeterList tone="green" items={run.outcomes.map((outcome) => ({ label: outcome.label, value: Math.min(100, Math.round((outcome.value / Math.max(run.contacted, 1)) * 100)), helper: formatNumber(outcome.value) }))} />
         </div>
       </Card>
     </AppShell>

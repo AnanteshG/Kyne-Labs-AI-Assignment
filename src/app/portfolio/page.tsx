@@ -5,7 +5,7 @@ import { Metric } from "@/components/ui/Metric";
 import { Badge } from "@/components/ui/Badge";
 import { Button } from "@/components/ui/Button";
 import { PageHeader } from "@/components/ui/PageHeader";
-import { Delta, DonutMeter, MiniSparkline, ProgressBar } from "@/components/ui/TremorPrimitives";
+import { AreaTrend, BarMeterList, Delta, DonutMeter, FlowRibbon, MiniSparkline, ProgressBar } from "@/components/ui/TremorPrimitives";
 import { formatCurrency, formatNumber, formatPercent } from "@/lib/utils";
 import { hands, portfolio } from "@/server/mock-db";
 
@@ -54,7 +54,8 @@ export default function PortfolioPage() {
               </div>
             </div>
           </div>
-          <div className="grid gap-2">
+          <div className="grid gap-3">
+            <AreaTrend label="Exposure recovery" tone="green" values={[42, 44, 49, 47, 55, 58, 64, 71]} />
             <Link href="/data"><Button variant="secondary" className="w-full">Resolve readiness blockers</Button></Link>
             <Link href="/runs/r1"><Button variant="ghost" className="w-full">Review paused run</Button></Link>
           </div>
@@ -67,10 +68,10 @@ export default function PortfolioPage() {
           <div className="grid gap-4">
             {portfolio.delinquencyBuckets.map((bucket, index) => (
               <Link key={bucket.label} href="/workspace" className="rounded-xl border border-line bg-white p-5 transition hover:border-blue-300 hover:bg-blue-50/40">
-                <div className="grid gap-4 md:grid-cols-[180px_1fr_80px] md:items-center">
-                  <div>
+                <div className="grid min-w-0 gap-4 md:grid-cols-[minmax(0,180px)_minmax(0,1fr)_auto] md:items-center">
+                  <div className="min-w-0">
                     <p className="font-semibold text-ink">{bucket.label}</p>
-                    <p className="mt-1 text-sm text-muted">{formatNumber(bucket.accounts)} accounts · {formatCurrency(bucket.exposure)} exposure</p>
+                    <p className="mt-1 text-sm text-muted">{formatNumber(bucket.accounts)} accounts - {formatCurrency(bucket.exposure)} exposure</p>
                   </div>
                   <ProgressBar value={Math.min(95, 38 + index * 16)} tone={index < 2 ? "blue" : index === 2 ? "amber" : "red"} />
                   <Delta value={bucket.trend} />
@@ -101,20 +102,14 @@ export default function PortfolioPage() {
       <div className="mt-8 grid gap-8 xl:grid-cols-[0.8fr_1.2fr]">
         <Card>
           <CardHeader title="Governance readiness" eyebrow="Before customer contact" />
-          <div className="space-y-4">
-            <div className="flex items-center justify-between rounded-xl bg-emerald-50 p-4">
-              <span className="font-semibold text-emerald-800">Customer data</span>
-              <Badge tone="success">Ready</Badge>
-            </div>
-            <div className="flex items-center justify-between rounded-xl bg-amber-50 p-4">
-              <span className="font-semibold text-amber-900">Quiet-hour policies</span>
-              <Badge tone="warning">Review</Badge>
-            </div>
-            <div className="flex items-center justify-between rounded-xl bg-orange-50 p-4">
-              <span className="font-semibold text-orange-900">Voice consent</span>
-              <Badge tone="danger">Blocked</Badge>
-            </div>
-          </div>
+          <BarMeterList
+            tone="green"
+            items={[
+              { label: "Customer data", value: 100, helper: "Ready" },
+              { label: "Quiet-hour policies", value: 68, helper: "Review" },
+              { label: "Voice consent", value: 32, helper: "Blocked" }
+            ]}
+          />
           <Link href="/data" className="mt-5 block">
             <Button variant="secondary" className="w-full">Open data and policies</Button>
           </Link>
@@ -122,7 +117,15 @@ export default function PortfolioPage() {
 
         <Card>
           <CardHeader title="Active Banking Hands" eyebrow="Execution pipeline" />
-          <div className="grid gap-4 md:grid-cols-3">
+          <FlowRibbon
+            steps={[
+              { label: "Draft", value: "1 hand", tone: "blue" },
+              { label: "Review", value: "1 gate", tone: "amber" },
+              { label: "Approved", value: "1 hand", tone: "green" },
+              { label: "Running", value: "1 run", tone: "blue" }
+            ]}
+          />
+          <div className="mt-5 grid gap-4 md:grid-cols-3">
             {hands.map((hand) => (
               <Link key={hand.id} href={`/hands/${hand.id}`} className="rounded-xl border border-line p-5 transition hover:border-slate-400 hover:bg-slate-50">
                 <Badge tone={hand.status === "approved" ? "success" : hand.status === "draft" ? "neutral" : "warning"}>

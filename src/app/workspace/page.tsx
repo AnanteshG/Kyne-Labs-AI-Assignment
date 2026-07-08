@@ -5,7 +5,7 @@ import { Button } from "@/components/ui/Button";
 import { Card, CardHeader } from "@/components/ui/Card";
 import { PageHeader } from "@/components/ui/PageHeader";
 import { StatusBadge, readinessTone } from "@/components/ui/Status";
-import { ProgressBar } from "@/components/ui/TremorPrimitives";
+import { AreaTrend, FlowRibbon, ProgressBar, PulseRail } from "@/components/ui/TremorPrimitives";
 import { artifacts } from "@/server/mock-db";
 
 const messages = [
@@ -28,11 +28,11 @@ export default function WorkspacePage() {
         }
       />
       <div className="grid gap-8 xl:grid-cols-[0.72fr_1.28fr]">
-        <Card className="min-h-[640px] border-slate-300">
+        <Card className="border-slate-300 xl:min-h-[640px]">
           <CardHeader title="Conversation" eyebrow="Coworker" />
           <div className="space-y-5">
             {messages.map((message) => (
-              <div key={message.body} className={message.speaker === "Operator" ? "ml-8 rounded-xl bg-blue-600 p-4 text-white shadow-sm" : "mr-8 rounded-xl border border-line bg-white p-4 shadow-tremor"}>
+              <div key={message.body} className={message.speaker === "Operator" ? "ml-0 rounded-xl bg-blue-600 p-4 text-white shadow-sm sm:ml-8" : "mr-0 rounded-xl border border-line bg-white p-4 shadow-tremor sm:mr-8"}>
                 <p className="text-xs font-semibold uppercase tracking-wide opacity-75">{message.speaker}</p>
                 <p className="mt-2 text-sm leading-6">{message.body}</p>
               </div>
@@ -41,13 +41,33 @@ export default function WorkspacePage() {
           <div className="mt-8 rounded-xl border border-line bg-white p-4">
             <p className="text-sm text-muted">Ask the coworker to adjust audience, channels, policy gates, or approval requirements.</p>
           </div>
+          <div className="mt-6">
+            <PulseRail
+              items={[
+                { label: "Audience filtered", detail: "DNC, active disputes, and missing SMS consent removed.", tone: "green" },
+                { label: "Policy matched", detail: "Quiet hours and opt-out language attached to the draft.", tone: "blue" },
+                { label: "Approval queued", detail: "Voice fallback and message review remain gated.", tone: "amber" }
+              ]}
+            />
+          </div>
         </Card>
         <Card>
           <CardHeader title="Generated hand package" eyebrow="Review before publishing" action={<Badge tone="warning">2 need review</Badge>} />
+          <div className="mb-6 grid gap-5 lg:grid-cols-[1fr_280px]">
+            <AreaTrend label="Eligible audience" tone="blue" values={[31, 37, 46, 52, 59, 66, 71, 76]} />
+            <FlowRibbon
+              steps={[
+                { label: "SMS", value: "Ready", tone: "green" },
+                { label: "Email", value: "Ready", tone: "green" },
+                { label: "Voice", value: "Blocked", tone: "red" },
+                { label: "Audit", value: "On", tone: "blue" }
+              ]}
+            />
+          </div>
           <div className="grid gap-5 md:grid-cols-2">
             {artifacts.map((artifact) => (
               <div key={artifact.id} className="rounded-xl border border-line p-5">
-                <div className="flex items-center justify-between gap-2">
+                <div className="flex flex-wrap items-center justify-between gap-2">
                   <p className="font-semibold text-ink">{artifact.title}</p>
                   <StatusBadge label={artifact.status} tone={readinessTone(artifact.status)} />
                 </div>

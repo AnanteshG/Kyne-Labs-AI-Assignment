@@ -4,6 +4,7 @@ import { Badge } from "@/components/ui/Badge";
 import { Card, CardHeader } from "@/components/ui/Card";
 import { Metric } from "@/components/ui/Metric";
 import { PageHeader } from "@/components/ui/PageHeader";
+import { AreaTrend, BarMeterList } from "@/components/ui/TremorPrimitives";
 import { hands, runs } from "@/server/mock-db";
 import { formatNumber } from "@/lib/utils";
 
@@ -19,6 +20,19 @@ export default function RunsPage() {
         <Metric label="Running or paused" value={String(runs.length)} helper="Active operational runs" />
         <Metric label="Customers contacted" value={formatNumber(runs.reduce((sum, run) => sum + run.contacted, 0))} helper="Across active runs" />
         <Metric label="Failures" value={formatNumber(runs.reduce((sum, run) => sum + run.failed, 0))} helper="Needs review or retry" />
+      </div>
+      <div className="mt-8 grid gap-6 xl:grid-cols-[1fr_1fr]">
+        <AreaTrend label="Contacts processed" tone="blue" values={[18, 24, 33, 42, 49, 57, 63, 68]} />
+        <Card>
+          <CardHeader title="Run health" eyebrow="Progress by hand" />
+          <BarMeterList
+            tone="blue"
+            items={runs.map((run) => {
+              const hand = hands.find((item) => item.id === run.handId);
+              return { label: hand?.name ?? run.id, value: run.progress, helper: `${formatNumber(run.failed)} failures` };
+            })}
+          />
+        </Card>
       </div>
       <Card className="mt-8">
         <CardHeader title="Run queue" eyebrow="Operational monitoring" />
@@ -41,7 +55,7 @@ export default function RunsPage() {
           })}
         </div>
         <div className="hidden overflow-x-auto md:block">
-          <table className="min-w-[820px] w-full text-left text-sm">
+          <table className="w-full min-w-[720px] text-left text-sm">
             <thead className="border-b border-line text-xs uppercase tracking-wide text-muted">
               <tr>
                 <th className="py-3">Run</th>
