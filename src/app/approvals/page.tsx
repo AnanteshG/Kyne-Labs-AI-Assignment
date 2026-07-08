@@ -1,4 +1,5 @@
 import { AppShell } from "@/components/shell/AppShell";
+import Link from "next/link";
 import { Badge } from "@/components/ui/Badge";
 import { Button } from "@/components/ui/Button";
 import { Card, CardHeader } from "@/components/ui/Card";
@@ -45,8 +46,8 @@ export default function ApprovalsPage() {
                   </div>
                 </div>
                 <div className="flex flex-wrap gap-2">
-                  <Button variant="secondary">Request changes</Button>
-                  <Button>Approve</Button>
+                  <Link href="/workspace"><Button variant="secondary">Request changes</Button></Link>
+                  <Link href="/runs/r1"><Button>Approve</Button></Link>
                 </div>
               </div>
             </Card>

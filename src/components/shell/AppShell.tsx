@@ -4,31 +4,32 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import {
   Activity,
+  AlertTriangle,
   Bot,
   BriefcaseBusiness,
   CheckSquare,
   ChevronLeft,
   ChevronRight,
   Database,
+  GitBranch,
   LayoutDashboard,
-  ListChecks,
   Menu,
   Moon,
+  Sparkles,
   Search,
   Settings,
   ShieldCheck,
   Sun,
   Users
 } from "lucide-react";
-import { modes } from "@/domain/constants";
-import { Badge } from "@/components/ui/Badge";
-import { Stepper } from "@/components/ui/TremorPrimitives";
 import { cn } from "@/lib/utils";
+import { OnboardingTour } from "@/components/shell/OnboardingTour";
 import { useEffect, useState, type ReactNode } from "react";
 
 const navItems = [
   { href: "/portfolio", label: "Portfolio", icon: LayoutDashboard },
   { href: "/data", label: "Readiness", icon: Database },
+  { href: "/workflows", label: "Workflows", icon: GitBranch },
   { href: "/workspace", label: "Coworker", icon: Bot },
   { href: "/hands", label: "Hands", icon: BriefcaseBusiness },
   { href: "/approvals", label: "Approvals", icon: CheckSquare },
@@ -37,20 +38,10 @@ const navItems = [
   { href: "/settings", label: "Settings", icon: Settings }
 ];
 
-const stepByRoot: Record<string, number> = {
-  portfolio: 0,
-  data: 1,
-  workspace: 2,
-  hands: 2,
-  approvals: 3,
-  runs: 4,
-  customers: 5,
-  settings: 1
-};
-
 export function AppShell({ children }: { children: ReactNode }) {
   const pathname = usePathname();
   const activeRoot = pathname.split("/")[1] || "portfolio";
+  const activeItem = navItems.find((item) => item.href.split("/")[1] === activeRoot) ?? navItems[0];
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [collapsed, setCollapsed] = useState(false);
   const [darkMode, setDarkMode] = useState(false);
@@ -75,21 +66,20 @@ export function AppShell({ children }: { children: ReactNode }) {
         <Link
           href="/portfolio"
           className={cn(
-            "tremor-focus flex min-w-0 items-center gap-3 rounded-xl border border-line bg-slate-50 p-3 shadow-tremor",
-            compact ? "justify-center" : "flex-1"
+            "tremor-focus nav-font flex min-w-0 items-center rounded-xl border border-line bg-slate-50 shadow-tremor transition hover:border-blue-300 hover:text-blue-700",
+            compact ? "h-10 justify-center px-2 text-xs font-bold" : "flex-1 px-3 py-2.5"
           )}
           onClick={() => setSidebarOpen(false)}
           title="Kyne Labs AI"
         >
-          <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-blue-600 text-white shadow-sm">
-            <ListChecks size={20} />
-          </span>
           {!compact ? (
             <span className="min-w-0">
-              <span className="block truncate text-sm font-bold text-ink">Kyne Labs AI</span>
-              <span className="block truncate text-xs text-muted">Regulated ops cockpit</span>
+              <span className="block truncate text-sm font-bold text-ink">Kyne AI Ops</span>
+              <span className="block truncate text-[11px] text-muted">Debt Collections Team</span>
             </span>
-          ) : null}
+          ) : (
+            <span>AI</span>
+          )}
         </Link>
         <button
           type="button"
@@ -102,8 +92,8 @@ export function AppShell({ children }: { children: ReactNode }) {
       </div>
 
       {!compact ? (
-        <div className="mt-5 rounded-xl border border-line bg-white p-4 shadow-tremor">
-          <p className="text-xs font-semibold uppercase tracking-wide text-muted">Tenant</p>
+        <div className="mt-4 rounded-xl border border-line bg-white p-3 shadow-tremor">
+          <p className="text-[11px] font-semibold uppercase tracking-wide text-muted">Tenant</p>
           <p className="mt-1 truncate text-sm font-semibold text-ink">Debt Collections Team</p>
           <div className="mt-4 flex min-w-0 items-center gap-2 rounded-lg border border-line bg-slate-50 px-3 py-2.5 text-xs text-muted">
             <Search size={14} className="shrink-0" />
@@ -112,7 +102,7 @@ export function AppShell({ children }: { children: ReactNode }) {
         </div>
       ) : null}
 
-      <nav className="mt-6 min-h-0 flex-1 space-y-1.5 overflow-y-auto pr-1">
+      <nav className="kyne-nav mt-5 min-h-0 flex-1 space-y-1 overflow-y-auto pr-1" data-tour="sidebar">
         {navItems.map((item) => {
           const routeRoot = item.href.split("/")[1];
           const active = pathname === item.href || (routeRoot ? pathname.startsWith(`/${routeRoot}`) : false);
@@ -124,25 +114,32 @@ export function AppShell({ children }: { children: ReactNode }) {
               title={item.label}
               onClick={() => setSidebarOpen(false)}
               className={cn(
-                "tremor-focus flex min-w-0 items-center gap-3 rounded-lg px-3 py-3 text-sm font-medium text-slate-600 transition hover:bg-slate-100 hover:text-ink",
+                "tremor-focus group relative flex min-w-0 items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-semibold text-slate-600 transition hover:bg-blue-50 hover:text-blue-700",
                 compact && "justify-center px-2",
                 active && "bg-blue-50 text-blue-700 ring-1 ring-blue-100"
               )}
             >
               <Icon size={18} className="shrink-0" />
               {!compact ? <span className="truncate">{item.label}</span> : null}
+              {compact ? (
+                <span className="pointer-events-none absolute left-[calc(100%+10px)] top-1/2 z-50 hidden -translate-y-1/2 whitespace-nowrap rounded-md border border-line bg-white px-2.5 py-1.5 text-xs font-semibold text-ink shadow-raised group-hover:block">
+                  {item.label}
+                </span>
+              ) : null}
             </Link>
           );
         })}
       </nav>
 
       {!compact ? (
-        <div className="mt-6 rounded-xl border border-emerald-200 bg-emerald-50 p-4">
-          <div className="flex items-center gap-2 text-emerald-700">
-            <ShieldCheck size={18} className="shrink-0" />
-            <p className="text-sm font-semibold">Governance visible</p>
+        <div className="mt-4 rounded-lg border border-emerald-200 bg-emerald-50 px-3 py-2.5">
+          <div className="flex items-center justify-between gap-2 text-emerald-700">
+            <div className="flex min-w-0 items-center gap-2">
+              <ShieldCheck size={16} className="shrink-0" />
+              <p className="truncate text-xs font-semibold">Governance visible</p>
+            </div>
+            <span className="h-2 w-2 shrink-0 rounded-full bg-emerald-500" />
           </div>
-          <p className="mt-2 text-xs leading-5 text-emerald-800">Policy, consent, approvals, and audit stay attached to each launch.</p>
         </div>
       ) : null}
     </div>
@@ -179,8 +176,8 @@ export function AppShell({ children }: { children: ReactNode }) {
       ) : null}
 
       <div className={cn("transition-[padding] duration-200", contentInset)}>
-        <header className="sticky top-0 z-10 border-b border-line bg-white/90 px-5 py-4 backdrop-blur lg:px-10">
-          <div className="flex flex-col gap-4 2xl:flex-row 2xl:items-center 2xl:justify-between">
+        <header className="sticky top-0 z-10 border-b border-line bg-white/90 px-4 py-3 backdrop-blur lg:px-8" data-tour="topbar">
+          <div className="flex min-w-0 items-center justify-between gap-4">
             <div className="flex min-w-0 items-center gap-3">
               <button
                 type="button"
@@ -191,43 +188,62 @@ export function AppShell({ children }: { children: ReactNode }) {
                 <Menu size={19} />
               </button>
               <div className="min-w-0">
-                <Link href="/portfolio" className="mb-3 flex items-center gap-2 text-sm font-bold text-ink lg:hidden">
-                  <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-blue-600 text-white">
-                    <ListChecks size={16} />
-                  </span>
-                  <span className="truncate">Kyne Labs AI</span>
-                </Link>
-                <Stepper current={stepByRoot[activeRoot] ?? 0} />
+                <p className="nav-font truncate text-sm font-bold text-ink">{activeItem.label}</p>
+                <p className="truncate text-xs text-muted">Debt collections workspace</p>
               </div>
             </div>
 
-            <div className="flex min-w-0 flex-wrap items-center gap-2">
-              <div className="flex min-w-0 flex-wrap items-center gap-2">
-                {modes.map((mode, index) => (
-                  <Badge key={mode.value} tone={index === 0 ? "info" : "neutral"}>
-                    {mode.label}
-                  </Badge>
-                ))}
-                <div className="mx-1 hidden h-5 w-px bg-line sm:block" />
-                <Badge tone="success">Data ready</Badge>
-                <Badge tone="warning">2 reviews</Badge>
-                <Badge tone="danger">Voice blocked</Badge>
-                <Badge tone="info">Anantesh</Badge>
+            <div className="flex min-w-0 shrink-0 items-center gap-3">
+              <div className="nav-font hidden items-center gap-2 xl:flex">
+                <div className="rounded-lg border border-line bg-white px-3 py-2">
+                  <p className="text-[10px] font-semibold uppercase tracking-wide text-muted">Data status</p>
+                  <p className="mt-0.5 text-xs font-bold text-emerald-700">Ready</p>
+                </div>
+                <Link href="/approvals" className="rounded-lg border border-line bg-white px-3 py-2 transition hover:border-amber-300 hover:bg-amber-50">
+                  <p className="text-[10px] font-semibold uppercase tracking-wide text-muted">Approvals</p>
+                  <p className="mt-0.5 text-xs font-bold text-amber-800">2 pending reviews</p>
+                </Link>
+                <Link href="/data" className="rounded-lg border border-line bg-white px-3 py-2 transition hover:border-red-300 hover:bg-red-50">
+                  <p className="flex items-center gap-1 text-[10px] font-semibold uppercase tracking-wide text-muted">
+                    <AlertTriangle size={11} />
+                    Channel risk
+                  </p>
+                  <p className="mt-0.5 text-xs font-bold text-red-700">Voice blocked</p>
+                </Link>
               </div>
               <button
                 type="button"
-                className="tremor-focus ml-auto flex h-10 w-10 shrink-0 items-center justify-center rounded-lg border border-line bg-white text-slate-700 shadow-sm"
+                className="tremor-focus flex h-9 w-9 shrink-0 items-center justify-center rounded-lg border border-line bg-white text-slate-700 shadow-sm"
                 onClick={toggleTheme}
                 aria-label={darkMode ? "Switch to light mode" : "Switch to dark mode"}
               >
                 {darkMode ? <Sun size={18} /> : <Moon size={18} />}
               </button>
+              <div className="flex shrink-0 items-center gap-3 rounded-xl border border-line bg-white px-3 py-2 shadow-tremor">
+                <div className="flex h-10 w-10 items-center justify-center rounded-full bg-blue-600 text-sm font-bold text-white shadow-[0_0_18px_rgba(37,99,235,0.25)]">
+                  AS
+                </div>
+                <div className="hidden min-w-0 sm:block">
+                  <p className="truncate text-sm font-bold text-ink">Anantesh S.</p>
+                  <p className="truncate text-xs text-muted">Admin</p>
+                </div>
+              </div>
             </div>
           </div>
         </header>
 
         <main className="min-w-0 px-4 py-7 sm:px-5 lg:px-10 lg:py-10">{children}</main>
       </div>
+      <Link
+        href="/workspace"
+        className="animate-kyne-float animate-kyne-glow fixed bottom-5 right-5 z-30 flex items-center gap-2 rounded-full bg-blue-600 px-4 py-3 text-sm font-bold text-white shadow-raised transition hover:bg-blue-700"
+        data-tour="ask-ai"
+      >
+        <Sparkles size={17} />
+        Ask AI
+        <span className="absolute -right-1 -top-1 h-3 w-3 rounded-full bg-sky-300 shadow-[0_0_18px_rgba(56,189,248,0.9)]" />
+      </Link>
+      <OnboardingTour />
     </div>
   );
 }

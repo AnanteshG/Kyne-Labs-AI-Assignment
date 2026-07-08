@@ -8,6 +8,8 @@
 | Language | TypeScript | Shared domain modeling and safer implementation |
 | Styling | Tailwind CSS | Utility-based operational UI |
 | Icons | lucide-react | Lightweight icon system |
+| Workflow canvas | @xyflow/react | Drag-and-drop Banking Hand workflow modeling |
+| Onboarding | react-joyride | First-run guided tour |
 | Data | Mock TypeScript data | Prototype-only data source |
 | Backend shape | Next.js API routes + services + repositories | Demonstrates implementable server boundaries |
 | Deployment | Vercel-ready Next.js app | Simple assignment deployment path |
@@ -16,6 +18,7 @@
 
 - `src/app` owns routes, pages, layouts, and API handlers.
 - `src/components` owns reusable UI and domain-specific interface pieces.
+- `src/components/workflows` owns the workflow canvas and workflow-specific client UI.
 - `src/domain` owns shared types and constants.
 - `src/server/mock-db.ts` owns prototype data only.
 - `src/server/repositories` owns data access functions.

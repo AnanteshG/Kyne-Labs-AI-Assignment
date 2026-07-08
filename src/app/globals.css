@@ -52,27 +52,27 @@ textarea {
 }
 
 .dark body {
-  background: #0f172a;
-  color: #e5e7eb;
+  background: #020617;
+  color: #e5f6ff;
 }
 
 .dark .operational-grid {
   background-image:
-    linear-gradient(rgba(148, 163, 184, 0.08) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(148, 163, 184, 0.08) 1px, transparent 1px);
+    linear-gradient(rgba(56, 189, 248, 0.07) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(56, 189, 248, 0.07) 1px, transparent 1px);
 }
 
-.dark .bg-canvas { background-color: #0f172a !important; }
+.dark .bg-canvas { background-color: #020617 !important; }
 .dark .bg-white,
-.dark .bg-white\/90 { background-color: rgba(15, 23, 42, 0.94) !important; }
+.dark .bg-white\/90 { background-color: rgba(3, 7, 18, 0.94) !important; }
 .dark .bg-slate-50,
 .dark .bg-blue-50,
 .dark .bg-blue-50\/40,
 .dark .bg-emerald-50,
 .dark .bg-amber-50,
 .dark .bg-orange-50,
-.dark .bg-red-50 { background-color: #111827 !important; }
-.dark .bg-gradient-to-br { background-image: linear-gradient(135deg, #111827, #0f172a) !important; }
+.dark .bg-red-50 { background-color: #07111f !important; }
+.dark .bg-gradient-to-br { background-image: linear-gradient(135deg, #020617, #062033) !important; }
 .dark .text-ink,
 .dark .text-slate-700,
 .dark .text-slate-600,
@@ -83,10 +83,10 @@ textarea {
 .dark .text-amber-950,
 .dark .text-orange-900,
 .dark .text-orange-950,
-.dark .text-red-700 { color: #e5e7eb !important; }
+.dark .text-red-700 { color: #e5f6ff !important; }
 .dark .text-muted,
-.dark .text-slate-500 { color: #94a3b8 !important; }
-.dark .text-blue-700 { color: #93c5fd !important; }
+.dark .text-slate-500 { color: #8fb8cc !important; }
+.dark .text-blue-700 { color: #38bdf8 !important; }
 .dark .text-emerald-700 { color: #6ee7b7 !important; }
 .dark .text-amber-800 { color: #fcd34d !important; }
 .dark .border-line,
@@ -97,11 +97,12 @@ textarea {
 .dark .border-emerald-200,
 .dark .border-amber-200,
 .dark .border-orange-200,
-.dark .border-red-200 { border-color: #334155 !important; }
-.dark .divide-line > :not([hidden]) ~ :not([hidden]) { border-color: #334155 !important; }
+.dark .border-red-200 { border-color: #12314a !important; }
+.dark .divide-line > :not([hidden]) ~ :not([hidden]) { border-color: #12314a !important; }
 .dark .shadow-tremor,
-.dark .shadow-panel,
-.dark .shadow-raised { box-shadow: 0 1px 2px rgba(0, 0, 0, 0.35) !important; }
+.dark .shadow-panel { box-shadow: 0 1px 2px rgba(56, 189, 248, 0.12) !important; }
+.dark .shadow-raised,
+.dark .shadow-tremor { box-shadow: 0 14px 38px rgba(0, 0, 0, 0.32), 0 0 0 1px rgba(56, 189, 248, 0.08) !important; }
 
 .tremor-focus {
   outline: 2px solid transparent;
@@ -143,6 +144,24 @@ textarea {
   }
 }
 
+@keyframes kyne-float {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-4px);
+  }
+}
+
+@keyframes kyne-glow {
+  0%, 100% {
+    box-shadow: 0 10px 30px rgba(37, 99, 235, 0.28);
+  }
+  50% {
+    box-shadow: 0 14px 38px rgba(56, 189, 248, 0.45);
+  }
+}
+
 .animate-kyne-draw {
   animation: kyne-draw 1.4s ease-out both;
   stroke-dasharray: 320;
@@ -155,4 +174,56 @@ textarea {
 
 .animate-kyne-pulse {
   animation: kyne-pulse 1.8s ease-in-out infinite;
+}
+
+.animate-kyne-float {
+  animation: kyne-float 3s ease-in-out infinite;
+}
+
+.animate-kyne-glow {
+  animation: kyne-glow 2.6s ease-in-out infinite;
+}
+
+.nav-font {
+  font-family: "Segoe UI Variable Text", "Aptos", "Inter", "Segoe UI", ui-sans-serif, system-ui, sans-serif;
+  letter-spacing: 0;
+}
+
+.react-flow__node {
+  font-family: "Segoe UI Variable Text", "Aptos", "Inter", "Segoe UI", ui-sans-serif, system-ui, sans-serif;
+}
+
+.dark .react-flow__background {
+  background-color: #020617;
+}
+
+.dark .react-flow__controls,
+.dark .react-flow__minimap {
+  background: #030712;
+  border-color: #12314a;
+}
+
+.react-flow__node-bankingModule {
+  background: transparent !important;
+  border: 0 !important;
+  padding: 0 !important;
+}
+
+.react-flow__handle {
+  opacity: 1;
+}
+
+.react-flow__edge-path {
+  filter: drop-shadow(0 0 5px rgba(56, 189, 248, 0.35));
+}
+
+.react-flow__controls {
+  overflow: hidden;
+  border: 1px solid rgba(148, 163, 184, 0.35);
+  border-radius: 10px;
+  box-shadow: 0 12px 30px rgba(2, 6, 23, 0.24);
+}
+
+.react-flow__controls-button {
+  border-bottom-color: rgba(148, 163, 184, 0.25) !important;
 }

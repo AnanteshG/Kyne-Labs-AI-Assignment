@@ -99,6 +99,39 @@ export default function PortfolioPage() {
         </Card>
       </div>
 
+      <Card className="mt-8">
+        <CardHeader title="Channel performance" eyebrow="Operational detail" action={<Badge tone="info">Inspired by current ops views</Badge>} />
+        <div className="overflow-x-auto">
+          <table className="w-full min-w-[680px] text-left text-sm">
+            <thead className="border-b border-line text-xs uppercase tracking-wide text-muted">
+              <tr>
+                <th className="py-3">Channel</th>
+                <th>Volume</th>
+                <th>Success</th>
+                <th>Recovered</th>
+                <th>Exception</th>
+              </tr>
+            </thead>
+            <tbody className="divide-y divide-line">
+              {[
+                ["SMS", "11,420", "91.4%", "$910k", "Opt-out watch"],
+                ["Email", "8,870", "84.8%", "$620k", "Low urgency"],
+                ["WhatsApp", "2,104", "76.2%", "$210k", "Template review"],
+                ["Voice", "0", "Blocked", "$0", "Consent mismatch"]
+              ].map(([channel, volume, success, recovered, exception]) => (
+                <tr key={channel}>
+                  <td className="py-4 pr-6 font-semibold text-ink">{channel}</td>
+                  <td className="pr-6 text-slate-700">{volume}</td>
+                  <td className="pr-6 text-slate-700">{success}</td>
+                  <td className="pr-6 font-semibold text-ink">{recovered}</td>
+                  <td className="text-slate-700">{exception}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      </Card>
+
       <div className="mt-8 grid gap-8 xl:grid-cols-[0.8fr_1.2fr]">
         <Card>
           <CardHeader title="Governance readiness" eyebrow="Before customer contact" />

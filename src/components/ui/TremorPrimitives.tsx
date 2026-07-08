@@ -121,7 +121,12 @@ export function FlowRibbon({
       {steps.map((step, index) => (
         <div key={step.label} className="relative min-w-0 rounded-xl border border-line bg-white p-4 shadow-tremor">
           <div className={cn("absolute left-0 top-0 h-1 w-full rounded-t-xl", chartTones[step.tone ?? "blue"].bar)} />
-          {index < steps.length - 1 ? <div className="absolute right-[-18px] top-1/2 hidden h-px w-9 bg-line xl:block" /> : null}
+          {index < steps.length - 1 ? (
+            <div className="absolute right-[-20px] top-1/2 hidden w-10 items-center xl:flex" aria-hidden="true">
+              <span className="h-px flex-1 bg-blue-200" />
+              <span className="-ml-1 h-2 w-2 rotate-45 border-r-2 border-t-2 border-blue-400" />
+            </div>
+          ) : null}
           <p className="text-xs font-semibold uppercase tracking-wide text-muted">{step.label}</p>
           <p className="mt-2 truncate text-lg font-semibold text-ink">{step.value}</p>
         </div>
@@ -173,10 +178,10 @@ export function DonutMeter({ value, label, children }: { value: number; label: s
 export function Stepper({ current = 1 }: { current?: number }) {
   const steps = ["Portfolio", "Readiness", "Draft", "Approve", "Run", "Audit"];
   return (
-    <div className="flex flex-wrap items-center gap-2">
+    <div className="flex min-w-0 flex-nowrap items-center gap-1.5 overflow-x-auto pb-1">
       {steps.map((step, index) => (
-        <div key={step} className={cn("flex items-center gap-2 rounded-full border px-3 py-1.5 text-xs font-medium", index <= current ? "border-blue-200 bg-blue-50 text-blue-700" : "border-slate-200 bg-white text-slate-500")}>
-          <span className={cn("h-1.5 w-1.5 rounded-full", index <= current ? "bg-blue-600" : "bg-slate-300")} />
+        <div key={step} className={cn("nav-font flex shrink-0 items-center gap-2 rounded-full border px-3 py-1.5 text-[11px] font-semibold", index <= current ? "border-blue-200 bg-blue-50 text-blue-700" : "border-slate-200 bg-white text-slate-500")}>
+          <span className={cn("h-1.5 w-1.5 rounded-full", index <= current ? "bg-blue-600 shadow-[0_0_10px_rgba(37,99,235,0.65)]" : "bg-slate-300")} />
           {step}
         </div>
       ))}

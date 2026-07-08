@@ -1,0 +1,74 @@
+"use client";
+
+import { Joyride, STATUS, type EventData, type Step } from "react-joyride";
+import { useEffect, useState } from "react";
+
+const steps: Step[] = [
+  {
+    target: "[data-tour='sidebar']",
+    title: "Navigate operations",
+    content: "Move between portfolio health, readiness, workflows, approvals, execution, customers, and settings.",
+    skipBeacon: true
+  },
+  {
+    target: "[data-tour='topbar']",
+    title: "Check status and profile",
+    content: "The top bar shows the current section, operational readiness, pending approvals, channel risk, and the signed-in admin."
+  },
+  {
+    target: "[data-tour='ask-ai']",
+    title: "Ask AI anywhere",
+    content: "Use this shortcut from any page to open the coworker workspace and refine a Banking Hand."
+  }
+];
+
+export function OnboardingTour() {
+  const [run, setRun] = useState(false);
+
+  useEffect(() => {
+    const seen = localStorage.getItem("kyne-onboarding-seen");
+    if (!seen) {
+      const timer = window.setTimeout(() => setRun(true), 700);
+      return () => window.clearTimeout(timer);
+    }
+    return undefined;
+  }, []);
+
+  function handleEvent(data: EventData) {
+    if (data.status === STATUS.FINISHED || data.status === STATUS.SKIPPED) {
+      localStorage.setItem("kyne-onboarding-seen", "true");
+      setRun(false);
+    }
+  }
+
+  return (
+    <Joyride
+      continuous
+      onEvent={handleEvent}
+      run={run}
+      scrollToFirstStep={false}
+      steps={steps}
+      options={{
+        arrowColor: "#ffffff",
+        backgroundColor: "#ffffff",
+        overlayColor: "rgba(2, 6, 23, 0.42)",
+        primaryColor: "#2563eb",
+        textColor: "#111827",
+        zIndex: 70
+      }}
+      styles={{
+        tooltip: {
+          borderRadius: 10,
+          boxShadow: "0 20px 50px rgba(15, 23, 42, 0.18)"
+        },
+        buttonPrimary: {
+          borderRadius: 8,
+          fontWeight: 700
+        },
+        buttonBack: {
+          color: "#64748b"
+        }
+      }}
+    />
+  );
+}

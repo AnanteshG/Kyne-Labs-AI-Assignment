@@ -1,8 +1,8 @@
 import { cn } from "@/lib/utils";
-import type { ReactNode } from "react";
+import type { HTMLAttributes, ReactNode } from "react";
 
-export function Card({ children, className }: { children: ReactNode; className?: string }) {
-  return <section className={cn("min-w-0 rounded-xl border border-line bg-white p-5 shadow-tremor sm:p-6", className)}>{children}</section>;
+export function Card({ children, className, ...props }: HTMLAttributes<HTMLElement> & { children: ReactNode }) {
+  return <section className={cn("min-w-0 rounded-xl border border-line bg-white p-5 shadow-tremor sm:p-6", className)} {...props}>{children}</section>;
 }
 
 export function CardHeader({ title, action, eyebrow, description }: { title: string; action?: ReactNode; eyebrow?: string; description?: string }) {

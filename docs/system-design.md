@@ -21,11 +21,11 @@ Key merge decisions:
 
 - Overview, communication, payment, dashboard, and bucket performance become `/portfolio`.
 - Integrations, templates, knowledge base, policy readiness, and validation become `/data`.
-- Workflows and agents become `/hands` and `/hands/[id]`.
+- Workflows and agents become a dedicated `/workflows` canvas plus governed hand detail in `/hands` and `/hands/[id]`.
 - Observability, usage, run logs, and audit logs become `/runs` and `/runs/[id]`.
-- The side AI panel becomes a full coworker workspace at `/workspace`.
+- The side AI panel becomes a full coworker workspace at `/workspace`, with a floating Ask AI shortcut available throughout the authenticated app shell.
 
-Navigation uses one persistent shell. The active mode switch supports debt collection, invoice collection, and cross-sell without creating separate apps. The same routes adapt language, metrics, policies, and recommended actions by mode.
+Navigation uses one persistent shell with a collapsible sidebar, first-run onboarding, and a single-line journey bar. The active mode switch supports debt collection, invoice collection, and cross-sell without creating separate apps. The same routes adapt language, metrics, policies, and recommended actions by mode.
 
 ## 2. Screen Logic Specs
 

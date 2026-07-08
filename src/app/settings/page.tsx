@@ -40,6 +40,38 @@ export default function SettingsPage() {
           </Card>
         ))}
       </div>
+      <Card className="mt-8">
+        <CardHeader title="Audit log" eyebrow="Workspace events" action={<Badge tone="success">Export ready</Badge>} />
+        <div className="overflow-x-auto">
+          <table className="w-full min-w-[720px] text-left text-sm">
+            <thead className="border-b border-line text-xs uppercase tracking-wide text-muted">
+              <tr>
+                <th className="py-3">Action</th>
+                <th>Description</th>
+                <th>Actor</th>
+                <th>Status</th>
+                <th>Time</th>
+              </tr>
+            </thead>
+            <tbody className="divide-y divide-line">
+              {[
+                ["agent.executed", "Message draft completed", "operator@bank.com", "Completed", "1h ago"],
+                ["policy.checked", "Quiet-hour policy evaluated", "system", "Completed", "2h ago"],
+                ["approval.opened", "Voice fallback approval queued", "compliance@bank.com", "Pending", "3h ago"],
+                ["data.synced", "Core banking records refreshed", "system", "Completed", "15m ago"]
+              ].map(([action, description, actor, status, time]) => (
+                <tr key={`${action}-${time}`}>
+                  <td className="py-4 pr-6 font-semibold text-ink">{action}</td>
+                  <td className="pr-6 text-slate-700">{description}</td>
+                  <td className="pr-6 text-slate-700">{actor}</td>
+                  <td className="pr-6"><Badge tone={status === "Completed" ? "success" : "warning"}>{status}</Badge></td>
+                  <td className="text-muted">{time}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      </Card>
     </AppShell>
   );
 }

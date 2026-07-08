@@ -1,4 +1,5 @@
 import { AppShell } from "@/components/shell/AppShell";
+import Link from "next/link";
 import { Badge } from "@/components/ui/Badge";
 import { Button } from "@/components/ui/Button";
 import { Card, CardHeader } from "@/components/ui/Card";
@@ -16,7 +17,9 @@ export default function DataPage() {
         title="Readiness for customer contact"
         description="Review connected data, policy coverage, validation results, and blockers before any hand can run."
         actions={
-        <Button>Run validation</Button>
+        <Link href="#validation-report">
+          <Button>Run validation</Button>
+        </Link>
         }
       />
       <div className="mb-8">
@@ -69,7 +72,7 @@ export default function DataPage() {
           </div>
         </Card>
       </div>
-      <Card className="mt-8">
+      <Card className="mt-8" id="validation-report">
         <CardHeader title="Latest validation report" eyebrow={validationReport.checkedAt} action={<Badge tone="warning">Review needed</Badge>} />
         <div className="grid gap-5 lg:grid-cols-[1fr_1fr]">
           <AreaTrend label="Validation quality" tone="green" values={[72, 78, 81, 86, 84, 91, 93, 88]} />
