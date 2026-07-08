@@ -13,12 +13,12 @@ export default function DataPage() {
   return (
     <AppShell>
       <PageHeader
-        eyebrow="Data & policies hub"
-        title="Readiness for customer contact"
-        description="Review connected data, policy coverage, validation results, and blockers before any hand can run."
+        eyebrow="Data & Protocol Hub"
+        title="Readiness for borrower contact"
+        description="AI cannot act until borrower data, consent, DNC suppression, policy packs, and regional rules are ready."
         actions={
         <Link href="#validation-report">
-          <Button>Run validation</Button>
+          <Button>Run validation report</Button>
         </Link>
         }
       />
@@ -27,14 +27,14 @@ export default function DataPage() {
           steps={[
             { label: "Step 1", value: "Connect data", tone: "green" },
             { label: "Step 2", value: "Validate fields", tone: "green" },
-            { label: "Step 3", value: "Apply policies", tone: "amber" },
-            { label: "Step 4", value: "Clear approvals", tone: "red" }
+            { label: "Step 3", value: "Apply Protocol Hub", tone: "amber" },
+            { label: "Step 4", value: "Block unsafe action", tone: "red" }
           ]}
         />
       </div>
       <div className="grid gap-8 xl:grid-cols-[1fr_1fr]">
         <Card>
-          <CardHeader title="Data sources" eyebrow="Customer and outcomes data" />
+          <CardHeader title="Borrower data readiness" eyebrow="Portfolio, consent, DNC, and outcomes data" />
           <div className="space-y-3">
             {dataSources.map((source) => (
               <div key={source.id} className="rounded-xl border border-line p-5">
@@ -53,7 +53,7 @@ export default function DataPage() {
           </div>
         </Card>
         <Card>
-          <CardHeader title="Policy packs" eyebrow="Rules and governance" />
+          <CardHeader title="Protocol Hub status" eyebrow="Regional rules, industry standards, and company playbooks" />
           <div className="space-y-3">
             {policyPacks.map((pack) => (
               <div key={pack.id} className="rounded-xl border border-line p-5">
@@ -74,6 +74,13 @@ export default function DataPage() {
       </div>
       <Card className="mt-8" id="validation-report">
         <CardHeader title="Latest validation report" eyebrow={validationReport.checkedAt} action={<Badge tone="warning">Review needed</Badge>} />
+        <div className="mb-5 rounded-xl border border-red-200 bg-red-50 p-5">
+          <p className="text-sm font-semibold text-red-950">Blocked for unsafe channels</p>
+          <p className="mt-2 text-sm leading-6 text-red-900">
+            The backend would block borrower-facing execution until the voice consent mismatch and regional quiet-hour configuration are resolved.
+            SMS and email drafts can be prepared, but runtime policy checks still run before every touch.
+          </p>
+        </div>
         <div className="grid gap-5 lg:grid-cols-[1fr_1fr]">
           <AreaTrend label="Validation quality" tone="green" values={[72, 78, 81, 86, 84, 91, 93, 88]} />
           <BarMeterList

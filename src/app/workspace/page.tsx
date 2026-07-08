@@ -9,9 +9,9 @@ import { AreaTrend, FlowRibbon, ProgressBar, PulseRail } from "@/components/ui/T
 import { artifacts } from "@/server/mock-db";
 
 const messages = [
-  { speaker: "Operator", body: "Build a compliant 30-59 DPD outreach hand for customers eligible for SMS." },
-  { speaker: "Coworker", body: "I found 11,420 eligible customers after excluding DNC, active disputes, and missing SMS consent." },
-  { speaker: "Coworker", body: "The hand can run with SMS and email. Voice fallback needs separate compliance approval." }
+  { speaker: "Operator", body: "Build a 30-59 DPD outreach playbook for cooperative borrowers with SMS first and email fallback." },
+  { speaker: "Coworker", body: "I found 11,420 eligible borrowers after excluding DNC, active disputes, missing SMS consent, and hardship holds." },
+  { speaker: "Coworker", body: "I generated a Banking Hand draft with wait times, channel hops, escalation rules, and HITL approval requirements." }
 ];
 
 export default function WorkspacePage() {
@@ -19,11 +19,11 @@ export default function WorkspacePage() {
     <AppShell>
       <PageHeader
         eyebrow="Coworker workspace"
-        title="Draft a Banking Hand with evidence"
-        description="Turn an operating goal into audience, channel, schedule, message, policy, and approval decisions."
+        title="Draft a regulated Banking Hand with evidence"
+        description="Turn an operating goal into target segment, outreach sequence, policy decisions, and approval-ready artifacts."
         actions={
         <Link href="/hands/h1">
-          <Button>Create draft hand</Button>
+          <Button>Save as Banking Hand</Button>
         </Link>
         }
       />
@@ -39,7 +39,8 @@ export default function WorkspacePage() {
             ))}
           </div>
           <div className="mt-8 rounded-xl border border-line bg-white p-4">
-            <p className="text-sm text-muted">Ask the coworker to adjust audience, channels, policy gates, or approval requirements.</p>
+            <p className="text-xs font-semibold uppercase tracking-wide text-muted">Example prompt</p>
+            <p className="mt-2 text-sm leading-6 text-slate-700">Build a 30-59 DPD outreach playbook for cooperative borrowers with SMS first and email fallback.</p>
           </div>
           <div className="mt-6">
             <PulseRail
@@ -78,11 +79,28 @@ export default function WorkspacePage() {
               </div>
             ))}
           </div>
+          <div className="mt-8 grid gap-5 lg:grid-cols-3">
+            <div className="rounded-xl border border-line bg-slate-50 p-5">
+              <p className="text-xs font-semibold uppercase tracking-wide text-muted">Generated segment</p>
+              <p className="mt-2 font-semibold text-ink">30-59 DPD cooperative borrowers</p>
+              <p className="mt-2 text-sm leading-6 text-muted">Outstanding greater than $250, valid SMS consent, not DNC, no active dispute.</p>
+            </div>
+            <div className="rounded-xl border border-line bg-slate-50 p-5">
+              <p className="text-xs font-semibold uppercase tracking-wide text-muted">Channel hops</p>
+              <p className="mt-2 font-semibold text-ink">SMS to email to voice/human handoff</p>
+              <p className="mt-2 text-sm leading-6 text-muted">Wait 48 hours after SMS and 72 hours after email before escalation.</p>
+            </div>
+            <div className="rounded-xl border border-line bg-slate-50 p-5">
+              <p className="text-xs font-semibold uppercase tracking-wide text-muted">Escalation rules</p>
+              <p className="mt-2 font-semibold text-ink">Agent review required</p>
+              <p className="mt-2 text-sm leading-6 text-muted">Hardship replies, callback requests, and voice fallback all require HITL review.</p>
+            </div>
+          </div>
           <div className="mt-8 grid gap-5 lg:grid-cols-[1fr_300px]">
             <div className="rounded-xl border border-blue-200 bg-blue-50 p-5">
-              <p className="font-semibold text-blue-950">Decision memo</p>
+              <p className="font-semibold text-blue-950">Policy and decision panel</p>
               <p className="mt-2 text-sm leading-6 text-blue-900">
-                SMS and email can proceed after message approval. Voice fallback remains blocked until consent mismatch is resolved.
+                SMS and email can proceed after message approval. Voice fallback remains blocked until consent mismatch is resolved. The AI can recommend the sequence, but the backend controls whether each borrower-facing touch is allowed.
               </p>
             </div>
             <div className="rounded-xl border border-line bg-slate-50 p-5">

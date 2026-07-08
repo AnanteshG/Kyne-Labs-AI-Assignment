@@ -10,9 +10,9 @@ export function riskTone(risk: RiskLevel) {
 }
 
 export function handTone(status: HandStatus) {
-  if (status === "complete" || status === "approved") return "success";
-  if (status === "running") return "info";
-  if (status === "governance_review") return "warning";
+  if (status === "completed" || status === "approved") return "success";
+  if (status === "running" || status === "scheduled" || status === "validated") return "info";
+  if (status === "approval_required") return "warning";
   return "neutral";
 }
 

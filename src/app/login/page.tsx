@@ -37,8 +37,8 @@ export default function LoginPage() {
               Enter the workspace with the right operational permissions.
             </h1>
             <p className="mt-5 max-w-2xl text-base leading-7 text-slate-600">
-              Choose a demo role to see the product with realistic access boundaries across portfolio health, AI workflows,
-              approvals, execution monitoring, customers, and settings.
+              Choose a demo role to see realistic access boundaries across portfolio health, Protocol Hub readiness,
+              AI coworker artifacts, Banking Hands, approvals, runs, audit, integrations, and system design.
             </p>
             <div className="mt-8 grid gap-5 xl:grid-cols-[1fr_1.1fr]">
               <AreaTrend label="Governed recovery trend" tone="green" values={[42, 48, 51, 56, 61, 67, 72, 79]} />

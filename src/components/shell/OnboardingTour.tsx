@@ -7,18 +7,18 @@ const steps: Step[] = [
   {
     target: "[data-tour='sidebar']",
     title: "Navigate operations",
-    content: "Move between portfolio health, readiness, workflows, approvals, execution, customers, and settings.",
+    content: "Move between portfolio health, Protocol Hub readiness, AI coworker, Banking Hands, approvals, runs, audit, integrations, and system design.",
     skipBeacon: true
   },
   {
     target: "[data-tour='topbar']",
     title: "Check status and profile",
-    content: "The top bar shows the current section, operational readiness, pending approvals, channel risk, and the signed-in admin."
+    content: "The top bar shows the current mode, role context, operational readiness, pending approvals, channel risk, and tenant profile."
   },
   {
     target: "[data-tour='ask-ai']",
     title: "Ask AI anywhere",
-    content: "Use this shortcut from any page to open the coworker workspace and refine a Banking Hand."
+    content: "Use this shortcut from any page to ask the compliance-aware coworker about a Banking Hand."
   }
 ];
 

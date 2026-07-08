@@ -16,28 +16,32 @@ export default function RunDetailPage({ params }: { params: { id: string } }) {
   return (
     <AppShell>
       <PageHeader
-        eyebrow="Execution & audit"
+        eyebrow="Run detail"
         title={hand?.name ?? "Run detail"}
-        description="Follow progress, pauses, outcomes, and audit evidence."
+        description="Follow live SSE-style events, progress, borrower replies, review-required events, outcomes, and audit evidence."
       />
-      <div className="grid gap-5 md:grid-cols-4">
+      <div className="grid gap-5 md:grid-cols-4 xl:grid-cols-7">
         <Metric accent="amber" label="Status" value={run.status} helper="Human review pause active" />
         <Metric accent="blue" label="Progress" value={`${run.progress}%`} helper="Messages processed" />
-        <Metric accent="green" label="Contacted" value={formatNumber(run.contacted)} helper="Customer touches" />
-        <Metric accent="orange" label="Failures" value={formatNumber(run.failed)} helper="Carrier or policy failures" />
+        <Metric accent="green" label="Processed" value={formatNumber(run.borrowersProcessed)} helper="Borrowers checked" />
+        <Metric label="Sent" value={formatNumber(run.messagesSent)} helper="Messages sent" />
+        <Metric label="Skipped" value={formatNumber(run.skippedBorrowers)} helper="Policy suppressed" />
+        <Metric accent="orange" label="Failed" value={formatNumber(run.failed)} helper="Carrier or policy failures" />
+        <Metric accent="blue" label="Replies" value={formatNumber(run.borrowerReplies)} helper="Borrower responses" />
       </div>
       <div className="mt-8 grid gap-8 xl:grid-cols-[1fr_1fr]">
         <Card>
           <CardHeader title="Live event timeline" eyebrow="SSE-style stream" action={<Badge tone="warning">Paused</Badge>} />
-          <PulseRail items={runEvents.map((event) => ({ label: `${event.at} - ${event.label}`, detail: event.detail, tone: event.type === "hitl_required" ? "amber" : "blue" }))} />
+          <PulseRail items={runEvents.map((event) => ({ label: `${event.at} - ${event.label}`, detail: event.detail, tone: event.type === "agent_review_required" ? "amber" : event.type === "message.failed" || event.type === "run.failed" ? "red" : "blue" }))} />
         </Card>
         <Card>
           <CardHeader title="Immutable audit" eyebrow="Regulated review trail" />
           <div className="space-y-4">
             {auditEvents.map((event) => (
               <div key={event.id} className="rounded-xl border border-line p-5">
-                <p className="text-xs font-semibold text-muted">{event.at} - {event.actor}</p>
-                <p className="mt-1 font-semibold text-ink">{event.action}</p>
+                <p className="text-xs font-semibold text-muted">{event.at} - {event.actor} - {event.actorType}</p>
+                <p className="mt-1 font-semibold text-ink">{event.action} - {event.entity}</p>
+                <div className="mt-2"><Badge tone={event.policyResult === "ready" ? "success" : event.policyResult === "blocked" ? "danger" : "warning"}>{event.policyResult} policy result</Badge></div>
                 <p className="mt-1 text-sm leading-6 text-slate-600">{event.detail}</p>
               </div>
             ))}

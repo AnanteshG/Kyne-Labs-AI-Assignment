@@ -40,7 +40,7 @@ export default function CustomerDetailPage({ params }: { params: { id: string } 
         </Card>
         <Card>
           <CardHeader title="Recent operational events" eyebrow="Customer audit slice" />
-          <PulseRail items={runEvents.slice(0, 3).map((event) => ({ label: `${event.at} - ${event.label}`, detail: event.detail, tone: event.type === "hitl_required" ? "amber" : "blue" }))} />
+          <PulseRail items={runEvents.slice(0, 3).map((event) => ({ label: `${event.at} - ${event.label}`, detail: event.detail, tone: event.type === "agent_review_required" ? "amber" : "blue" }))} />
         </Card>
       </div>
     </AppShell>

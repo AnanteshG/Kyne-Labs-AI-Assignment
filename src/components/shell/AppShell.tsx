@@ -12,17 +12,17 @@ import {
   ChevronLeft,
   ChevronRight,
   Database,
-  GitBranch,
+  FileText,
   LayoutDashboard,
   Menu,
   Moon,
+  Network,
+  Plug,
   Send,
   Search,
-  Settings,
   ShieldCheck,
   Sun,
   X,
-  Users
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { canAccessRoute, isRole, roleAccess, roleHome, roleNames } from "@/lib/rbac";
@@ -33,14 +33,14 @@ import { useRouter } from "next/navigation";
 
 const navItems = [
   { href: "/portfolio", label: "Portfolio", icon: LayoutDashboard },
-  { href: "/data", label: "Readiness", icon: Database },
-  { href: "/workflows", label: "Workflows", icon: GitBranch },
-  { href: "/workspace", label: "Coworker", icon: Bot },
-  { href: "/hands", label: "Hands", icon: BriefcaseBusiness },
+  { href: "/data", label: "Data & Protocol Hub", icon: Database },
+  { href: "/workspace", label: "AI Coworker", icon: Bot },
+  { href: "/hands", label: "Banking Hands", icon: BriefcaseBusiness },
   { href: "/approvals", label: "Approvals", icon: CheckSquare },
-  { href: "/runs", label: "Execution", icon: Activity },
-  { href: "/customers", label: "Customers", icon: Users },
-  { href: "/settings", label: "Settings", icon: Settings }
+  { href: "/runs", label: "Runs", icon: Activity },
+  { href: "/audit", label: "Audit", icon: FileText },
+  { href: "/integrations", label: "Integrations", icon: Plug },
+  { href: "/system-design", label: "System Design", icon: Network }
 ];
 
 export function AppShell({ children }: { children: ReactNode }) {
@@ -49,6 +49,7 @@ export function AppShell({ children }: { children: ReactNode }) {
   const activeRoot = pathname.split("/")[1] || "portfolio";
   const activeItem = navItems.find((item) => item.href.split("/")[1] === activeRoot) ?? navItems[0];
   const [role, setRole] = useState<Role>("admin");
+  const [mode, setMode] = useState("Debt Collection");
   const visibleNavItems = navItems.filter((item) => roleAccess[role].includes(item.href.split("/")[1]));
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [collapsed, setCollapsed] = useState(false);
@@ -168,7 +169,7 @@ export function AppShell({ children }: { children: ReactNode }) {
               value={search}
               onChange={(event) => setSearch(event.target.value)}
               className="min-w-0 flex-1 bg-transparent text-xs font-medium text-ink outline-none placeholder:text-muted"
-              placeholder="Search hands, runs, customers"
+              placeholder="Search hands, runs, borrowers"
             />
           </form>
         </div>
@@ -261,11 +262,26 @@ export function AppShell({ children }: { children: ReactNode }) {
               </button>
               <div className="min-w-0">
                 <p className="nav-font truncate text-sm font-bold text-ink">{activeItem.label}</p>
-                <p className="truncate text-xs text-muted">{roleNames[role]} workspace</p>
+                <p className="truncate text-xs text-muted">{roleNames[role]} workspace - {mode}</p>
               </div>
             </div>
 
             <div className="flex min-w-0 shrink-0 items-center gap-3">
+              <div className="nav-font hidden items-center rounded-lg border border-line bg-slate-50 p-1 lg:flex">
+                {["Debt Collection", "Invoice Collection", "Cross-sell"].map((item) => (
+                  <button
+                    key={item}
+                    type="button"
+                    onClick={() => setMode(item)}
+                    className={cn(
+                      "rounded-md px-3 py-1.5 text-xs font-bold transition",
+                      mode === item ? "bg-blue-600 text-white shadow-sm" : "text-slate-600 hover:bg-white hover:text-ink"
+                    )}
+                  >
+                    {item}
+                  </button>
+                ))}
+              </div>
               <div className="nav-font hidden items-center gap-2 xl:flex">
                 <div className="rounded-lg border border-line bg-white px-3 py-2">
                   <p className="text-[10px] font-semibold uppercase tracking-wide text-muted">Data status</p>
@@ -336,10 +352,10 @@ export function AppShell({ children }: { children: ReactNode }) {
               </div>
               <div className="flex shrink-0 items-center gap-3 rounded-xl border border-line bg-white px-3 py-2 shadow-tremor">
                 <div className="flex h-10 w-10 items-center justify-center rounded-full bg-blue-600 text-sm font-bold text-white shadow-[0_0_18px_rgba(37,99,235,0.25)]">
-                  {role === "admin" ? "AS" : role === "compliance" ? "CO" : "OP"}
+                  {role === "admin" ? "AS" : role === "compliance" ? "CO" : role === "ops_leader" ? "OL" : "OP"}
                 </div>
                 <div className="hidden min-w-0 sm:block">
-                  <p className="truncate text-sm font-bold text-ink">{role === "admin" ? "Anantesh S." : role === "compliance" ? "Compliance Lead" : "Ops User"}</p>
+                  <p className="truncate text-sm font-bold text-ink">{role === "admin" ? "Anantesh S." : role === "compliance" ? "Compliance Lead" : role === "ops_leader" ? "Ops Leader" : "Ops User"}</p>
                   <p className="truncate text-xs text-muted">{roleNames[role]}</p>
                 </div>
               </div>

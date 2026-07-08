@@ -12,7 +12,7 @@ export default function HandsPage() {
     <AppShell>
       <PageHeader
         eyebrow="Banking Hands"
-        title="Regulated customer operations"
+        title="Governed recovery playbooks"
         description="Track each hand from draft to review, approval, execution, and completion."
       />
       <div className="mb-8 grid gap-6 xl:grid-cols-[1.1fr_0.9fr]">
@@ -66,9 +66,13 @@ export default function HandsPage() {
                 <th className="py-3">Hand</th>
                 <th>Mode</th>
                 <th>Status</th>
-                <th>Risk</th>
+                <th>Target segment</th>
+                <th>Channels</th>
+                <th>Approval</th>
+                <th>Last run outcome</th>
+                <th>Owner</th>
                 <th>Approvals</th>
-                <th>Next action</th>
+                <th>Open</th>
               </tr>
             </thead>
             <tbody className="divide-y divide-line">
@@ -80,9 +84,13 @@ export default function HandsPage() {
                   </td>
                   <td className="pr-6 capitalize">{hand.mode.replace(/_/g, " ")}</td>
                   <td className="pr-6"><Badge tone={handTone(hand.status)}>{hand.status.replace(/_/g, " ")}</Badge></td>
-                  <td className="pr-6"><Badge tone={riskTone(hand.risk)}>{hand.risk}</Badge></td>
+                  <td className="pr-6 text-slate-700">{hand.targetSegment}</td>
+                  <td className="pr-6 text-slate-700">{hand.channels.join(" -> ")}</td>
+                  <td className="pr-6"><Badge tone={hand.approvalState === "approved" ? "success" : hand.approvalState === "changes_requested" ? "warning" : "info"}>{hand.approvalState.replace(/_/g, " ")}</Badge></td>
+                  <td className="pr-6 text-slate-700">{hand.lastRunOutcome}</td>
+                  <td className="pr-6 text-slate-700">{hand.owner}</td>
                   <td className="pr-6">{hand.approvalsResolved}/{hand.approvalsRequired}</td>
-                  <td className="font-semibold text-ink">{hand.nextAction}</td>
+                  <td className="font-semibold text-blue-700"><Link href={`/hands/${hand.id}`}>View details</Link></td>
                 </tr>
               ))}
             </tbody>

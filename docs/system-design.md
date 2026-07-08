@@ -184,7 +184,7 @@ Important APIs:
 
 Key entities are `User`, `PortfolioSummary`, `Customer`, `PolicyPack`, `ValidationReport`, `BankingHand`, `Approval`, `Run`, `RunEvent`, `AuditEvent`, `CoworkerSession`, and `CoworkerArtifact`.
 
-Execution events handled by UI include `artifact_updated`, `hitl_required`, `run.progress`, `approval.resolved`, and `run.failed`.
+Execution events handled by UI include `run.started`, `run.progress`, `message.sent`, `message.failed`, `borrower.replied`, `agent_review_required`, `run.completed`, and `run.failed`.
 
 Audit model: audit events are immutable, append-only records tied to hands, runs, approvals, and customer-contact decisions. The UI surfaces them on run detail and customer detail so compliance can reconstruct what happened, who approved it, and why automation paused.
 
@@ -197,3 +197,24 @@ The AI feels like a coworker because it produces reviewable artifacts and decisi
 The design decision I am most proud of is making governance visible in every major step. Policy readiness appears on the portfolio, data hub, coworker artifacts, hand detail, approvals, and run audit. That makes trust part of the product surface rather than a settings afterthought.
 
 In week one as frontend engineer, I would build the production data model for Banking Hands, wire the hand lifecycle to backend APIs, and implement the run event stream with clear empty, loading, paused, failed, and audit states.
+
+## 6. Current In-App Architecture Update
+
+The app now exposes the assignment-critical routes directly in the product shell: `/portfolio`, `/data` with `/protocol-hub` alias, `/workspace` with `/coworker` alias, `/hands`, `/hands/[id]`, `/approvals`, `/runs`, `/runs/[id]`, `/audit`, `/integrations`, and `/system-design`.
+
+The in-app System Design page documents Kyne as a six-layer Agent OS:
+
+- Interaction Layer: web app, voice/SMS/email adapters, conversation timeline, run monitor, SSE updates, and notifications.
+- Orchestration Layer: Banking Hand lifecycle, workflow engine, agent coordination, HITL approvals, scheduling, escalations, and queue workers.
+- Intelligence Layer: borrower persona generation, payment intent detection, risk scoring, DPD segmentation, AI recommendations, LLM gateway, and vector retrieval.
+- Data Foundation Layer: borrower profiles, accounts, repayment history, DPD buckets, consent/DNC records, transcripts, and outcomes.
+- Integration Layer: HubSpot, Stripe, PayPal, Gmail, Slack, core banking, webhooks, API connectors, retries, and dead-letter queues.
+- Compliance Layer: Protocol Hub, regional rules, company playbooks, consent, DNC, quiet hours, frequency caps, approval gates, RBAC, and immutable audit logs.
+
+The documented production services are Portfolio Intelligence, Borrower / Case, Data Ingestion, Protocol Hub / Policy, Agent Orchestrator, Banking Hand / Workflow, Approval, Outreach Execution, Integration, Audit, Notification / SSE, and Analytics / Learning.
+
+The core data model now includes Tenant, User, Role, Borrower, Account, Case, PortfolioUpload, PolicyPack, ProtocolRule, BorrowerPersona, BankingHand, HandVersion, Approval, Run, RunEvent, ConversationMessage, AuditEvent, IntegrationConnection, and Outcome.
+
+The API contract table on `/system-design` includes portfolio, borrowers, uploads, Protocol Hub, coworker, hands, approvals, runs, SSE events, audit history, and audit export endpoints. REST is used for standard reads/mutations. SSE is used for server-to-client streams such as AI artifact generation, policy-check progress, run progress, message sent/failed, borrower replies, approval notifications, and escalations.
+
+Critical backend invariant: the AI can recommend and generate actions, but the backend controls whether those actions are allowed. Policy checks, consent checks, DNC checks, approval gates, tenant isolation, and audit logging are enforced server-side before any borrower-facing step runs.

@@ -13,13 +13,16 @@ export default function RunsPage() {
     <AppShell>
       <PageHeader
         eyebrow="Execution"
-        title="Live runs, pauses, failures, and outcomes"
-        description="Monitor active operations, delivery issues, and review pauses."
+        title="Live outreach execution"
+        description="Monitor run status, progress, borrower processing, sends, skips, failures, replies, agent reviews, and outcomes."
       />
-      <div className="grid gap-5 md:grid-cols-3">
+      <div className="grid gap-5 md:grid-cols-3 xl:grid-cols-6">
         <Metric label="Running or paused" value={String(runs.length)} helper="Active operational runs" />
-        <Metric label="Customers contacted" value={formatNumber(runs.reduce((sum, run) => sum + run.contacted, 0))} helper="Across active runs" />
-        <Metric label="Failures" value={formatNumber(runs.reduce((sum, run) => sum + run.failed, 0))} helper="Needs review or retry" />
+        <Metric label="Borrowers processed" value={formatNumber(runs.reduce((sum, run) => sum + run.borrowersProcessed, 0))} helper="Across active runs" />
+        <Metric label="Messages sent" value={formatNumber(runs.reduce((sum, run) => sum + run.messagesSent, 0))} helper="SMS/email touches" />
+        <Metric label="Skipped borrowers" value={formatNumber(runs.reduce((sum, run) => sum + run.skippedBorrowers, 0))} helper="Policy suppressed" />
+        <Metric label="Failed messages" value={formatNumber(runs.reduce((sum, run) => sum + run.failed, 0))} helper="Retry or review" />
+        <Metric label="Replies" value={formatNumber(runs.reduce((sum, run) => sum + run.borrowerReplies, 0))} helper="Borrower responses" />
       </div>
       <div className="mt-8 grid gap-6 xl:grid-cols-[1fr_1fr]">
         <AreaTrend label="Contacts processed" tone="blue" values={[18, 24, 33, 42, 49, 57, 63, 68]} />
@@ -47,7 +50,7 @@ export default function RunsPage() {
                 </div>
                 <div className="mt-4 grid grid-cols-3 gap-3 text-sm">
                   <div><p className="text-muted">Progress</p><p className="mt-1 font-semibold text-ink">{run.progress}%</p></div>
-                  <div><p className="text-muted">Contacted</p><p className="mt-1 font-semibold text-ink">{formatNumber(run.contacted)}</p></div>
+                  <div><p className="text-muted">Processed</p><p className="mt-1 font-semibold text-ink">{formatNumber(run.borrowersProcessed)}</p></div>
                   <div><p className="text-muted">Failures</p><p className="mt-1 font-semibold text-ink">{formatNumber(run.failed)}</p></div>
                 </div>
               </Link>
@@ -61,8 +64,11 @@ export default function RunsPage() {
                 <th className="py-3">Run</th>
                 <th>Status</th>
                 <th>Progress</th>
-                <th>Contacted</th>
+                <th>Processed</th>
+                <th>Sent</th>
+                <th>Skipped</th>
                 <th>Failures</th>
+                <th>Review</th>
                 <th>Open</th>
               </tr>
             </thead>
@@ -74,8 +80,11 @@ export default function RunsPage() {
                     <td className="py-5 pr-6 font-semibold text-ink">{hand?.name ?? run.id}</td>
                     <td><Badge tone={run.status === "paused" ? "warning" : "info"}>{run.status}</Badge></td>
                     <td>{run.progress}%</td>
-                    <td>{formatNumber(run.contacted)}</td>
+                    <td>{formatNumber(run.borrowersProcessed)}</td>
+                    <td>{formatNumber(run.messagesSent)}</td>
+                    <td>{formatNumber(run.skippedBorrowers)}</td>
                     <td>{formatNumber(run.failed)}</td>
+                    <td>{formatNumber(run.reviewRequired)}</td>
                     <td><Link href={`/runs/${run.id}`} className="font-semibold text-blue-700">View audit</Link></td>
                   </tr>
                 );
