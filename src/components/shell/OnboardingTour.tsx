@@ -49,24 +49,26 @@ export function OnboardingTour() {
       scrollToFirstStep={false}
       steps={steps}
       options={{
-        arrowColor: "#ffffff",
-        backgroundColor: "#ffffff",
+        arrowColor: "#0b1d4d",
+        backgroundColor: "#0b1d4d",
         overlayColor: "rgba(2, 6, 23, 0.42)",
-        primaryColor: "#2563eb",
-        textColor: "#111827",
+        primaryColor: "#38bdf8",
+        textColor: "#ffffff",
         zIndex: 70
       }}
       styles={{
         tooltip: {
           borderRadius: 10,
-          boxShadow: "0 20px 50px rgba(15, 23, 42, 0.18)"
+          border: "3px double #ffffff",
+          boxShadow: "0 20px 50px rgba(2, 6, 23, 0.35)"
         },
         buttonPrimary: {
           borderRadius: 8,
+          color: "#031332",
           fontWeight: 700
         },
         buttonBack: {
-          color: "#64748b"
+          color: "#dbeafe"
         }
       }}
     />

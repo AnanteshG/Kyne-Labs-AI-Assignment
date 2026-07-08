@@ -2,7 +2,7 @@
 
 ## Visual Direction
 
-The interface should feel like a serious banking operations cockpit with a Tremor-inspired analytics style: crisp cards, clear metric hierarchy, progress bars, animated SVG trends, bar meters, flow ribbons, workflow canvases, confident blue accents, and light/dark operating modes.
+The interface should feel like a serious banking operations cockpit with a Tremor-inspired analytics style: dark mode by default, crisp cards, clear metric hierarchy, progress bars, Apex-style animated trends, rounded bar charts, flow ribbons, workflow canvases, confident blue accents, and light/dark operating modes.
 
 ## Color Tokens
 
@@ -38,6 +38,7 @@ The interface should feel like a serious banking operations cockpit with a Tremo
 - Sticky single-line top context bar with the current section, readable readiness summaries, channel risk, and user profile.
 - Floating Ask AI button is available across authenticated app pages.
 - First-run onboarding uses a short Joyride tour over navigation, top-bar context, and Ask AI.
+- Dark mode is the default initial experience; explicit user theme changes are persisted.
 - Full-width page layouts with constrained spacing.
 - Cards are for individual operational panels only.
 - Tables are preferred for repeated operational records.
@@ -49,7 +50,7 @@ The interface should feel like a serious banking operations cockpit with a Tremo
 - Use rounded-md cards, buttons, badges, and panels.
 - Use badges for status, risk, approval, and mode.
 - Use metric tiles for portfolio and run summaries.
-- Use progress bars, compact sparkline charts, area trends, bar meters, pulse timelines, flow ribbons, and donut meters where they clarify operational movement.
+- Use ApexCharts-powered compact sparkline charts, smooth gradient area trends, rounded bar charts, pulse timelines, flow ribbons, and donut meters where they clarify operational movement.
 - Use React Flow for the workflow and agents canvas; nodes should represent regulated Banking Hand modules, not a generic automation playground.
 - Keep animations subtle and operational: draw charts, pulse live events, and reveal meters without distracting from review work.
 - Use lucide icons in shell/navigation.

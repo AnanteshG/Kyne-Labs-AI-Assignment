@@ -189,6 +189,40 @@ textarea {
   letter-spacing: 0;
 }
 
+.kyne-nav {
+  scrollbar-color: rgba(37, 99, 235, 0.55) transparent;
+  scrollbar-width: thin;
+}
+
+.kyne-nav::-webkit-scrollbar {
+  width: 7px;
+}
+
+.kyne-nav::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.kyne-nav::-webkit-scrollbar-thumb {
+  background: linear-gradient(180deg, rgba(37, 99, 235, 0.75), rgba(56, 189, 248, 0.65));
+  border: 2px solid transparent;
+  border-radius: 999px;
+  background-clip: padding-box;
+}
+
+.kyne-nav::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(180deg, rgba(29, 78, 216, 0.95), rgba(14, 165, 233, 0.9));
+  background-clip: padding-box;
+}
+
+.dark .kyne-nav {
+  scrollbar-color: rgba(56, 189, 248, 0.65) transparent;
+}
+
+.dark .kyne-nav::-webkit-scrollbar-thumb {
+  background: linear-gradient(180deg, rgba(56, 189, 248, 0.8), rgba(37, 99, 235, 0.75));
+  background-clip: padding-box;
+}
+
 .react-flow__node {
   font-family: "Segoe UI Variable Text", "Aptos", "Inter", "Segoe UI", ui-sans-serif, system-ui, sans-serif;
 }
@@ -207,6 +241,14 @@ textarea {
   background: transparent !important;
   border: 0 !important;
   padding: 0 !important;
+}
+
+.leet-flow .react-flow__pane {
+  cursor: grab;
+}
+
+.leet-flow .react-flow__pane:active {
+  cursor: grabbing;
 }
 
 .react-flow__handle {

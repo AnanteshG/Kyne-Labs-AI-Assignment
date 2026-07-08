@@ -27,6 +27,12 @@ Update this file after every meaningful implementation change.
 - Reviewed the 17-page screenshots PDF and added a React Flow workflow/agents canvas, Joyride onboarding, floating Ask AI shortcut, clearer workflow arrows, denser operational tables, cleaner sidebar collapse/hover states, and black/electric-blue dark mode.
 - Removed duplicate top journey navigation, clarified top-bar status labels, and added an explicit admin profile block with avatar initials, name, and role.
 - Redesigned the React Flow canvas with custom high-contrast Banking Hand nodes, visible handles, electric-blue animated edges, dark canvas framing, and polished controls/minimap styling.
+- Polished sidebar scrollbars, fixed collapsed sidebar branding, repaired dark-mode sidebar hover contrast, added working shell search, notifications with clear action, and a Limbus Ask AI popup.
+- Reworked React Flow nodes again with LeetNode-inspired colorful module headers, stronger readable body text, brighter canvas gradients, and explicit drag/connect affordances.
+- Ported the QIO-Frontend chart style by adding ApexCharts/react-apexcharts and replacing hand-drawn trend, bar, sparkline, and donut visuals with smooth animated gradient charts, dashed grids, rounded bars, and donut label animations.
+- Set dark mode as the default first-run platform theme while preserving explicit saved light-mode preference.
+- Added client-side mock RBAC with role-specific navigation, route redirects, persisted role selection, and a redesigned role-based login page.
+- Converted the floating Ask AI shortcut into an in-place Limbus chatbot and removed its decorative button icon and page navigation.
 
 ## In Progress
 

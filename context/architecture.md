@@ -7,6 +7,7 @@
 | Framework | Next.js App Router | Pages, layouts, server route handlers |
 | Language | TypeScript | Shared domain modeling and safer implementation |
 | Styling | Tailwind CSS | Utility-based operational UI |
+| Charts | ApexCharts + react-apexcharts | Animated area, bar, sparkline, and donut charts |
 | Icons | lucide-react | Lightweight icon system |
 | Workflow canvas | @xyflow/react | Drag-and-drop Banking Hand workflow modeling |
 | Onboarding | react-joyride | First-run guided tour |
@@ -23,7 +24,7 @@
 - `src/server/mock-db.ts` owns prototype data only.
 - `src/server/repositories` owns data access functions.
 - `src/server/services` owns product actions and business-level response shapes.
-- `src/lib` owns small formatting and utility helpers.
+- `src/lib` owns small formatting, RBAC, and utility helpers.
 - `docs` owns submission-ready written system design.
 - `context` owns build context, standards, and progress.
 

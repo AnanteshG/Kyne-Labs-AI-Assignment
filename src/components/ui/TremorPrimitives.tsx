@@ -1,5 +1,13 @@
+"use client";
+
 import { cn } from "@/lib/utils";
+import type { ApexOptions } from "apexcharts";
+import dynamic from "next/dynamic";
 import type { ReactNode } from "react";
+
+const Chart = dynamic(() => import("react-apexcharts"), {
+  ssr: false
+});
 
 export function ProgressBar({ value, tone = "blue" }: { value: number; tone?: "blue" | "green" | "amber" | "red" }) {
   const colors = {
@@ -26,11 +34,39 @@ export function Delta({ value }: { value: number }) {
 }
 
 export function MiniSparkline({ tone = "blue" }: { tone?: "blue" | "green" | "amber" }) {
-  const stroke = tone === "green" ? "#059669" : tone === "amber" ? "#d97706" : "#2563eb";
+  const color = tone === "green" ? "#10b981" : tone === "amber" ? "#f59e0b" : "#0abef9";
+  const values = [28, 26, 22, 24, 30, 18, 13, 18, 24, 9];
+  const options: ApexOptions = {
+    chart: {
+      animations: {
+        enabled: true,
+        speed: 900,
+        dynamicAnimation: { enabled: true, speed: 450 }
+      },
+      sparkline: { enabled: true },
+      toolbar: { show: false },
+      type: "area"
+    },
+    colors: [color],
+    dataLabels: { enabled: false },
+    fill: {
+      gradient: {
+        opacityFrom: 0.45,
+        opacityTo: 0
+      },
+      type: "gradient"
+    },
+    stroke: {
+      curve: "smooth",
+      width: 3
+    },
+    tooltip: { enabled: false }
+  };
+
   return (
-    <svg viewBox="0 0 120 36" className="h-9 w-full" role="img" aria-label="Trend">
-      <path d="M2 28 C16 26, 20 20, 30 22 S48 30, 58 18 S76 8, 88 13 S105 24, 118 9" fill="none" stroke={stroke} strokeWidth="3" strokeLinecap="round" />
-    </svg>
+    <div className="h-12 w-full" role="img" aria-label="Trend">
+      <Chart options={options} series={[{ name: "Trend", data: values }]} type="area" height={48} />
+    </div>
   );
 }
 
@@ -50,17 +86,61 @@ export function AreaTrend({
   tone?: keyof typeof chartTones;
   label: string;
 }) {
-  const max = Math.max(...values, 1);
-  const min = Math.min(...values, 0);
-  const span = Math.max(max - min, 1);
-  const points = values.map((value, index) => {
-    const x = (index / Math.max(values.length - 1, 1)) * 100;
-    const y = 54 - ((value - min) / span) * 42;
-    return `${x.toFixed(2)},${y.toFixed(2)}`;
-  });
-  const line = points.join(" ");
-  const area = `0,60 ${line} 100,60`;
   const toneValue = chartTones[tone];
+  const secondaryColor = tone === "blue" ? "#5750f1" : tone === "green" ? "#0abef9" : tone === "amber" ? "#f59e0b" : "#ef4444";
+  const primaryColor = toneValue.stroke;
+  const options: ApexOptions = {
+    chart: {
+      animations: {
+        enabled: true,
+        speed: 1000,
+        animateGradually: { enabled: true, delay: 90 },
+        dynamicAnimation: { enabled: true, speed: 450 }
+      },
+      fontFamily: "inherit",
+      toolbar: { show: false },
+      type: "area",
+      zoom: { enabled: false }
+    },
+    colors: [primaryColor, secondaryColor],
+    dataLabels: { enabled: false },
+    fill: {
+      gradient: {
+        opacityFrom: 0.55,
+        opacityTo: 0
+      },
+      type: "gradient"
+    },
+    grid: {
+      borderColor: "#dbeafe",
+      strokeDashArray: 5,
+      xaxis: { lines: { show: false } },
+      yaxis: { lines: { show: true } }
+    },
+    legend: { show: false },
+    markers: {
+      hover: { size: 5 },
+      size: 0
+    },
+    stroke: {
+      curve: "smooth",
+      width: 3
+    },
+    tooltip: {
+      marker: { show: true },
+      theme: "light"
+    },
+    xaxis: {
+      axisBorder: { show: false },
+      axisTicks: { show: false },
+      categories: values.map((_, index) => `T${index + 1}`),
+      labels: { show: false }
+    },
+    yaxis: {
+      labels: { show: false }
+    }
+  };
+  const comparison = values.map((value, index) => Math.max(0, Math.round(value * (0.86 + index * 0.018))));
 
   return (
     <div className="min-w-0 rounded-xl border border-line bg-white p-4 shadow-tremor">
@@ -68,14 +148,17 @@ export function AreaTrend({
         <p className="truncate text-sm font-semibold text-ink">{label}</p>
         <span className={cn("rounded-full border px-2 py-1 text-xs font-medium", toneValue.soft)}>Live</span>
       </div>
-      <svg viewBox="0 0 100 64" className="h-32 w-full overflow-visible" role="img" aria-label={label} preserveAspectRatio="none">
-        <polygon points={area} fill={toneValue.fill} opacity="0.75" />
-        <polyline points={line} fill="none" stroke={toneValue.stroke} strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" className="animate-kyne-draw" vectorEffect="non-scaling-stroke" />
-        {points.map((point, index) => {
-          const [cx, cy] = point.split(",");
-          return <circle key={`${point}-${index}`} cx={cx} cy={cy} r="1.8" fill={toneValue.stroke} />;
-        })}
-      </svg>
+      <div className="-mx-3 -mb-3 h-40">
+        <Chart
+          options={options}
+          series={[
+            { name: label, data: values },
+            { name: "Baseline", data: comparison }
+          ]}
+          type="area"
+          height={160}
+        />
+      </div>
     </div>
   );
 }
@@ -87,26 +170,76 @@ export function BarMeterList({
   items: Array<{ label: string; value: number; helper?: string }>;
   tone?: keyof typeof chartTones;
 }) {
-  const max = Math.max(...items.map((item) => item.value), 1);
+  const toneValue = chartTones[tone];
+  const options: ApexOptions = {
+    chart: {
+      animations: {
+        enabled: true,
+        speed: 900,
+        animateGradually: { enabled: true, delay: 100 }
+      },
+      fontFamily: "inherit",
+      toolbar: { show: false },
+      type: "bar"
+    },
+    colors: [toneValue.stroke === "#2563eb" ? "#5750f1" : toneValue.stroke, "#0abef9"],
+    dataLabels: { enabled: false },
+    fill: { opacity: 1 },
+    grid: {
+      borderColor: "#dbeafe",
+      strokeDashArray: 5,
+      xaxis: { lines: { show: false } },
+      yaxis: { lines: { show: true } }
+    },
+    legend: { show: false },
+    plotOptions: {
+      bar: {
+        borderRadius: 5,
+        borderRadiusApplication: "end",
+        columnWidth: "42%",
+        horizontal: false
+      }
+    },
+    stroke: {
+      colors: ["transparent"],
+      show: true,
+      width: 4
+    },
+    tooltip: {
+      x: { show: false }
+    },
+    xaxis: {
+      axisBorder: { show: false },
+      axisTicks: { show: false },
+      categories: items.map((item) => item.label),
+      labels: {
+        rotate: -18,
+        style: { fontSize: "10px" },
+        trim: true
+      }
+    },
+    yaxis: {
+      max: 100,
+      labels: { style: { fontSize: "10px" } }
+    }
+  };
+
   return (
-    <div className="space-y-4">
-      {items.map((item, index) => (
-        <div key={item.label} className="min-w-0">
-          <div className="mb-2 flex items-center justify-between gap-3 text-sm">
-            <div className="min-w-0">
-              <p className="truncate font-semibold text-ink">{item.label}</p>
-              {item.helper ? <p className="text-xs text-muted">{item.helper}</p> : null}
+    <div>
+      <div className="-mx-3 -mb-4 h-56">
+        <Chart options={options} series={[{ name: "Score", data: items.map((item) => item.value) }]} type="bar" height={224} />
+      </div>
+      <div className="mt-2 grid gap-2 sm:grid-cols-2">
+        {items.map((item) => (
+          <div key={item.label} className="min-w-0 rounded-lg border border-line bg-slate-50 px-3 py-2">
+            <div className="flex items-center justify-between gap-2">
+              <p className="truncate text-xs font-semibold text-ink">{item.label}</p>
+              <p className="shrink-0 text-xs font-bold text-ink">{item.value}%</p>
             </div>
-            <p className="shrink-0 font-semibold text-ink">{item.value}%</p>
+            {item.helper ? <p className="mt-1 truncate text-[11px] text-muted">{item.helper}</p> : null}
           </div>
-          <div className="h-2.5 overflow-hidden rounded-full bg-slate-100">
-            <div
-              className={cn("h-full rounded-full animate-kyne-rise", chartTones[tone].bar)}
-              style={{ width: `${Math.max(5, (item.value / max) * 100)}%`, animationDelay: `${index * 90}ms` }}
-            />
-          </div>
-        </div>
-      ))}
+        ))}
+      </div>
     </div>
   );
 }
@@ -155,17 +288,55 @@ export function PulseRail({ items }: { items: Array<{ label: string; detail: str
 }
 
 export function DonutMeter({ value, label, children }: { value: number; label: string; children?: ReactNode }) {
-  const radius = 38;
-  const circumference = 2 * Math.PI * radius;
-  const offset = circumference - (value / 100) * circumference;
+  const options: ApexOptions = {
+    chart: {
+      animations: {
+        enabled: true,
+        speed: 900
+      },
+      fontFamily: "inherit",
+      type: "donut"
+    },
+    colors: ["#5750f1", "#5475e5", "#8099ec"],
+    dataLabels: { enabled: false },
+    labels: [label, "Review", "Blocked"],
+    legend: { show: false },
+    plotOptions: {
+      pie: {
+        donut: {
+          background: "transparent",
+          labels: {
+            show: true,
+            total: {
+              color: "#111827",
+              fontSize: "14px",
+              fontWeight: 700,
+              label: `${value}%`,
+              show: true,
+              showAlways: true
+            },
+            value: {
+              color: "#2563eb",
+              fontSize: "20px",
+              fontWeight: 800,
+              show: false
+            }
+          },
+          size: "78%"
+        }
+      }
+    },
+    stroke: {
+      colors: ["#ffffff"],
+      width: 4
+    },
+    tooltip: { enabled: false }
+  };
+
   return (
     <div className="flex items-center gap-5">
-      <div className="relative h-24 w-24">
-        <svg viewBox="0 0 100 100" className="h-24 w-24 -rotate-90">
-          <circle cx="50" cy="50" r={radius} fill="none" stroke="#e5e7eb" strokeWidth="10" />
-          <circle cx="50" cy="50" r={radius} fill="none" stroke="#2563eb" strokeWidth="10" strokeLinecap="round" strokeDasharray={circumference} strokeDashoffset={offset} />
-        </svg>
-        <div className="absolute inset-0 flex items-center justify-center text-lg font-semibold text-ink">{value}%</div>
+      <div className="h-32 w-32 shrink-0">
+        <Chart options={options} series={[value, Math.max(0, 100 - value - 8), 8]} type="donut" height={128} width={128} />
       </div>
       <div>
         <p className="text-sm font-semibold text-ink">{label}</p>

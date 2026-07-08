@@ -16,8 +16,7 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
             __html: `
 try {
   const theme = localStorage.getItem("kyne-theme");
-  const prefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
-  if (theme === "dark" || (!theme && prefersDark)) document.documentElement.classList.add("dark");
+  if (theme !== "light") document.documentElement.classList.add("dark");
 } catch {}
 `
           }}
