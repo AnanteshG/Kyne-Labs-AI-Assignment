@@ -15,9 +15,9 @@ export default function SettingsPage() {
       <PageHeader
         eyebrow="Settings"
         title="Admin controls that do not belong in governance flow"
-        description="Team and integration setup stays here. Policy validation, approvals, and audit stay in the operating journey."
+        description="Manage teams, integrations, routing, and tenant-level configuration."
       />
-      <div className="grid gap-4">
+      <div className="grid gap-6">
         {settings.map((item) => (
           <Card key={item.title}>
             <CardHeader title={item.title} action={<Badge tone="success">{item.status}</Badge>} />

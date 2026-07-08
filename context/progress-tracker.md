@@ -20,10 +20,11 @@ Update this file after every meaningful implementation change.
 - Added system design document.
 - Added Six-File Context files and agent entry point.
 - Reviewed 17 current-platform screenshots and applied a redesign pass to the shell, portfolio, readiness, coworker, hand detail, execution, and docs.
+- Increased UI spacing, removed product-explanation copy from screens, added mobile card layouts, and verified desktop/mobile rendering with browser screenshots.
 
 ## In Progress
 
-- Verify screenshot-driven UI polish with typecheck and production build.
+- Continue visual polish and prepare next push when approved.
 
 ## Next Up
 

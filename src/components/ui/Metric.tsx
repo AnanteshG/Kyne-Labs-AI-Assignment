@@ -22,10 +22,10 @@ export function Metric({
   accent?: keyof typeof accents;
 }) {
   return (
-    <div className={cn("rounded-lg border bg-white p-4 shadow-panel", accents[accent], className)}>
+    <div className={cn("rounded-xl border bg-white p-5 shadow-panel", accents[accent], className)}>
       <p className="text-xs font-semibold uppercase tracking-wide text-muted">{label}</p>
-      <p className="mt-2 text-2xl font-semibold text-ink">{value}</p>
-      {helper ? <p className="mt-1 text-sm text-muted">{helper}</p> : null}
+      <p className="mt-3 text-2xl font-semibold text-ink">{value}</p>
+      {helper ? <p className="mt-2 text-sm leading-5 text-muted">{helper}</p> : null}
     </div>
   );
 }

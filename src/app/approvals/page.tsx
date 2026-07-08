@@ -12,15 +12,15 @@ export default function ApprovalsPage() {
       <PageHeader
         eyebrow="Approvals"
         title="Trust gates before live customer contact"
-        description="Approvals are promoted from a side queue into the regulated path for every Banking Hand."
+        description="Review pending message, policy, and launch decisions."
       />
-      <div className="grid gap-4">
+      <div className="grid gap-6">
         {approvals.map((approval) => {
           const hand = hands.find((item) => item.id === approval.handId);
           return (
             <Card key={approval.id}>
               <CardHeader title={approval.title} eyebrow={hand?.name} action={<Badge tone={approvalTone(approval.status)}>{approval.status.replace(/_/g, " ")}</Badge>} />
-              <div className="grid gap-4 md:grid-cols-[1fr_auto] md:items-end">
+              <div className="grid gap-5 md:grid-cols-[1fr_auto] md:items-end">
                 <div>
                   <p className="text-sm leading-6 text-slate-600">{approval.reason}</p>
                   <div className="mt-3 flex flex-wrap gap-2">

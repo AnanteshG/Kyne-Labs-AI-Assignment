@@ -6,9 +6,9 @@ import { Card } from "@/components/ui/Card";
 
 export default function LoginPage() {
   return (
-    <main className="min-h-screen bg-canvas px-4 py-10">
-      <div className="mx-auto grid max-w-6xl gap-8 lg:grid-cols-[1fr_420px]">
-        <section className="flex min-h-[620px] flex-col justify-between rounded-md border border-line bg-white p-8 shadow-panel">
+    <main className="min-h-screen bg-canvas px-5 py-12 operational-grid">
+      <div className="mx-auto grid max-w-6xl gap-10 lg:grid-cols-[1fr_440px]">
+        <section className="flex min-h-[620px] flex-col justify-between rounded-2xl border border-line bg-white p-10 shadow-raised">
           <div>
             <div className="flex h-12 w-12 items-center justify-center rounded-md bg-ink text-white">
               <ShieldCheck size={24} />
@@ -18,30 +18,28 @@ export default function LoginPage() {
               Regulated banking operations, governed from portfolio to customer contact.
             </h1>
             <p className="mt-5 max-w-2xl text-base leading-7 text-slate-600">
-              Operators, compliance teams, and admins share one cockpit for data readiness, AI-generated Banking Hands,
-              approval gates, execution monitoring, and immutable audit evidence.
+              Operators, compliance teams, and admins share one cockpit for portfolio health, policy readiness,
+              approvals, execution monitoring, and audit evidence.
             </p>
           </div>
           <div className="grid gap-3 border-t border-line pt-6 sm:grid-cols-3">
             {["Portfolio first", "Governance visible", "Coworker driven"].map((item) => (
-              <div key={item} className="rounded-md bg-slate-50 p-4 text-sm font-semibold text-slate-700">
+              <div key={item} className="rounded-xl bg-slate-50 p-4 text-sm font-semibold text-slate-700">
                 {item}
               </div>
             ))}
           </div>
         </section>
         <Card className="self-center">
-          <p className="text-xs font-semibold uppercase tracking-wide text-muted">Mock login</p>
+          <p className="text-xs font-semibold uppercase tracking-wide text-muted">Secure entry</p>
           <h2 className="mt-2 text-xl font-semibold text-ink">Choose your role</h2>
-          <p className="mt-2 text-sm leading-6 text-slate-600">
-            This prototype uses role-based entry points to show how permissions shape the same product shell.
-          </p>
+          <p className="mt-2 text-sm leading-6 text-slate-600">Select the workspace view you want to review.</p>
           <div className="mt-6 space-y-3">
             {roles.map((role) => (
               <Link
                 href={`/portfolio?role=${role.value}`}
                 key={role.value}
-                className="block rounded-md border border-line bg-white p-4 transition hover:border-slate-400 hover:bg-slate-50"
+                className="block rounded-xl border border-line bg-white p-5 transition hover:border-slate-400 hover:bg-slate-50"
               >
                 <div className="flex items-center justify-between gap-3">
                   <div>

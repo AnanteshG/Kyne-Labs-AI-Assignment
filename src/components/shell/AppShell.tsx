@@ -36,8 +36,8 @@ export function AppShell({ children }: { children: ReactNode }) {
 
   return (
     <div className="min-h-screen bg-canvas operational-grid">
-      <aside className="fixed inset-y-0 left-0 z-20 hidden w-72 border-r border-slate-800 bg-ink px-4 py-5 text-white lg:block">
-        <Link href="/portfolio" className="flex items-center gap-3 rounded-lg border border-white/10 bg-white/5 p-3">
+      <aside className="fixed inset-y-0 left-0 z-20 hidden w-72 border-r border-slate-800 bg-ink px-5 py-6 text-white lg:block">
+        <Link href="/portfolio" className="flex items-center gap-3 rounded-xl border border-white/10 bg-white/5 p-4">
           <div className="flex h-10 w-10 items-center justify-center rounded-md bg-white text-ink">
             <ListChecks size={20} />
           </div>
@@ -46,15 +46,15 @@ export function AppShell({ children }: { children: ReactNode }) {
             <p className="text-xs text-slate-300">Regulated ops cockpit</p>
           </div>
         </Link>
-        <div className="mt-5 rounded-lg border border-white/10 bg-slate-950/30 p-3">
+        <div className="mt-6 rounded-xl border border-white/10 bg-slate-950/30 p-4">
           <p className="text-xs font-semibold uppercase tracking-wide text-slate-400">Tenant</p>
           <p className="mt-1 text-sm font-semibold">Debt Collections Team</p>
-          <div className="mt-3 flex items-center gap-2 rounded-md bg-white/10 px-3 py-2 text-xs text-slate-300">
+          <div className="mt-4 flex items-center gap-2 rounded-lg bg-white/10 px-3 py-2.5 text-xs text-slate-300">
             <Search size={14} />
             Search hands, runs, customers
           </div>
         </div>
-        <nav className="mt-6 space-y-1">
+        <nav className="mt-8 space-y-1.5">
           {navItems.map((item) => {
             const routeRoot = item.href.split("/")[1];
             const active = pathname === item.href || (routeRoot ? pathname.startsWith(`/${routeRoot}`) : false);
@@ -64,7 +64,7 @@ export function AppShell({ children }: { children: ReactNode }) {
                 key={item.href}
                 href={item.href}
                 className={cn(
-                  "flex items-center gap-3 rounded-md px-3 py-2.5 text-sm font-semibold text-slate-300 transition hover:bg-white/10 hover:text-white",
+                  "flex items-center gap-3 rounded-lg px-3 py-3 text-sm font-semibold text-slate-300 transition hover:bg-white/10 hover:text-white",
                   active && "bg-white text-ink shadow-sm hover:bg-white hover:text-ink"
                 )}
               >
@@ -74,7 +74,7 @@ export function AppShell({ children }: { children: ReactNode }) {
             );
           })}
         </nav>
-        <div className="absolute bottom-5 left-4 right-4 rounded-lg border border-emerald-400/20 bg-emerald-400/10 p-4">
+        <div className="absolute bottom-6 left-5 right-5 rounded-xl border border-emerald-400/20 bg-emerald-400/10 p-4">
           <div className="flex items-center gap-2 text-emerald-100">
             <ShieldCheck size={18} />
             <p className="text-sm font-semibold">Governance visible</p>
@@ -105,7 +105,7 @@ export function AppShell({ children }: { children: ReactNode }) {
             </div>
           </div>
         </header>
-        <main className="px-4 py-6 lg:px-8">{children}</main>
+        <main className="px-5 py-8 lg:px-10 lg:py-10">{children}</main>
       </div>
     </div>
   );

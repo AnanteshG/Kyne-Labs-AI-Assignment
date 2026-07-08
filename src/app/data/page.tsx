@@ -12,26 +12,26 @@ export default function DataPage() {
     <AppShell>
       <PageHeader
         eyebrow="Data & policies hub"
-        title="One readiness gate for files, connectors, knowledge, consent, and policy packs"
-        description="Screenshots show integrations, templates, knowledge base, settings, and audit as separate surfaces. This hub turns them into a clear pre-flight path."
+        title="Readiness for customer contact"
+        description="Review connected data, policy coverage, validation results, and blockers before any hand can run."
         actions={
         <Button>Run validation</Button>
         }
       />
-      <div className="mb-6 grid gap-3 md:grid-cols-4">
+      <div className="mb-8 grid gap-4 md:grid-cols-4">
         {["Connect data", "Validate fields", "Apply policies", "Clear approvals"].map((step, index) => (
-          <div key={step} className={`rounded-lg border p-4 ${index < 2 ? "border-emerald-200 bg-emerald-50" : index === 2 ? "border-amber-200 bg-amber-50" : "border-orange-200 bg-orange-50"}`}>
+          <div key={step} className={`rounded-xl border p-5 ${index < 2 ? "border-emerald-200 bg-emerald-50" : index === 2 ? "border-amber-200 bg-amber-50" : "border-orange-200 bg-orange-50"}`}>
             <p className="text-xs font-semibold uppercase tracking-wide text-muted">Step {index + 1}</p>
             <p className="mt-1 font-semibold text-ink">{step}</p>
           </div>
         ))}
       </div>
-      <div className="grid gap-6 xl:grid-cols-[1fr_1fr]">
+      <div className="grid gap-8 xl:grid-cols-[1fr_1fr]">
         <Card>
           <CardHeader title="Data sources" eyebrow="Customer and outcomes data" />
           <div className="space-y-3">
             {dataSources.map((source) => (
-              <div key={source.id} className="flex items-center justify-between gap-4 rounded-md border border-line p-4">
+              <div key={source.id} className="flex items-center justify-between gap-5 rounded-xl border border-line p-5">
                 <div>
                   <p className="font-semibold text-ink">{source.name}</p>
                   <p className="mt-1 text-sm text-muted">{source.type} · {formatNumber(source.records)} records · {source.lastSync}</p>
@@ -45,7 +45,7 @@ export default function DataPage() {
           <CardHeader title="Policy packs" eyebrow="Rules and governance" />
           <div className="space-y-3">
             {policyPacks.map((pack) => (
-              <div key={pack.id} className="flex items-center justify-between gap-4 rounded-md border border-line p-4">
+              <div key={pack.id} className="flex items-center justify-between gap-5 rounded-xl border border-line p-5">
                 <div>
                   <p className="font-semibold text-ink">{pack.name}</p>
                   <p className="mt-1 text-sm text-muted">{pack.jurisdiction} · {pack.rules} rules · {pack.updatedAt}</p>
@@ -56,7 +56,7 @@ export default function DataPage() {
           </div>
         </Card>
       </div>
-      <Card className="mt-6">
+      <Card className="mt-8">
         <CardHeader title="Latest validation report" eyebrow={validationReport.checkedAt} action={<Badge tone="warning">Review needed</Badge>} />
         <div className="grid gap-4 md:grid-cols-3">
           <div className="rounded-md bg-emerald-50 p-4">
@@ -74,7 +74,7 @@ export default function DataPage() {
         </div>
         <div className="mt-5 space-y-3">
           {validationReport.blockers.map((blocker) => (
-            <div key={blocker.id} className="rounded-md border border-orange-200 bg-orange-50 p-4">
+            <div key={blocker.id} className="rounded-xl border border-orange-200 bg-orange-50 p-5">
               <div className="flex flex-wrap items-center justify-between gap-2">
                 <p className="font-semibold text-orange-950">{blocker.label}</p>
                 <Badge tone="danger">{blocker.owner}</Badge>
