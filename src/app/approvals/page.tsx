@@ -2,16 +2,18 @@ import { AppShell } from "@/components/shell/AppShell";
 import { Badge } from "@/components/ui/Badge";
 import { Button } from "@/components/ui/Button";
 import { Card, CardHeader } from "@/components/ui/Card";
+import { PageHeader } from "@/components/ui/PageHeader";
 import { approvalTone, riskTone } from "@/components/ui/Status";
 import { approvals, hands } from "@/server/mock-db";
 
 export default function ApprovalsPage() {
   return (
     <AppShell>
-      <div className="mb-6">
-        <p className="text-sm font-semibold uppercase tracking-wide text-muted">Approvals</p>
-        <h1 className="mt-2 text-3xl font-semibold text-ink">Review trust gates before live customer contact</h1>
-      </div>
+      <PageHeader
+        eyebrow="Approvals"
+        title="Trust gates before live customer contact"
+        description="Approvals are promoted from a side queue into the regulated path for every Banking Hand."
+      />
       <div className="grid gap-4">
         {approvals.map((approval) => {
           const hand = hands.find((item) => item.id === approval.handId);

@@ -4,6 +4,8 @@
 
 The redesign compresses overlapping workflow, agent, and Banking Hand concepts into one main operational object: the **Banking Hand**. A hand is a governed AI-operated banking workflow with audience, channels, policy gates, approvals, execution, outcomes, and audit.
 
+Reference screenshot review: the current platform separates collection overview, accounts, communication overview, payment overview, dashboard, bucket performance, approvals, teams, integrations, templates, knowledge base, observability, workflows, agents, usage, audit logs, and a side AI panel. The redesign keeps the useful operational density but removes the feeling of jumping between disconnected admin pages.
+
 | Current area | Decision | New route |
 | --- | --- | --- |
 | Collections overview / dashboard | Keep and redesign as home base | `/portfolio` |
@@ -14,6 +16,14 @@ The redesign compresses overlapping workflow, agent, and Banking Hand concepts i
 | Approvals queue | Keep and elevate | `/approvals` |
 | Live runs / activity feeds / logs | Merge into execution and audit detail | `/runs/[id]` |
 | Settings / teams / integrations | Keep only admin configuration | `/settings` |
+
+Key merge decisions:
+
+- Overview, communication, payment, dashboard, and bucket performance become `/portfolio`.
+- Integrations, templates, knowledge base, policy readiness, and validation become `/data`.
+- Workflows and agents become `/hands` and `/hands/[id]`.
+- Observability, usage, run logs, and audit logs become `/runs` and `/runs/[id]`.
+- The side AI panel becomes a full coworker workspace at `/workspace`.
 
 Navigation uses one persistent shell. The active mode switch supports debt collection, invoice collection, and cross-sell without creating separate apps. The same routes adapt language, metrics, policies, and recommended actions by mode.
 

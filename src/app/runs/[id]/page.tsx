@@ -2,6 +2,7 @@ import { AppShell } from "@/components/shell/AppShell";
 import { Badge } from "@/components/ui/Badge";
 import { Card, CardHeader } from "@/components/ui/Card";
 import { Metric } from "@/components/ui/Metric";
+import { PageHeader } from "@/components/ui/PageHeader";
 import { auditEvents, hands, runEvents, runs } from "@/server/mock-db";
 import { formatNumber } from "@/lib/utils";
 import { notFound } from "next/navigation";
@@ -13,15 +14,16 @@ export default function RunDetailPage({ params }: { params: { id: string } }) {
 
   return (
     <AppShell>
-      <div className="mb-6">
-        <p className="text-sm font-semibold uppercase tracking-wide text-muted">Execution & audit</p>
-        <h1 className="mt-2 text-3xl font-semibold text-ink">{hand?.name ?? "Run detail"}</h1>
-      </div>
+      <PageHeader
+        eyebrow="Execution & audit"
+        title={hand?.name ?? "Run detail"}
+        description="Run events are shown alongside immutable audit evidence so compliance can reconstruct what happened."
+      />
       <div className="grid gap-4 md:grid-cols-4">
-        <Metric label="Status" value={run.status} helper="Human review pause active" />
-        <Metric label="Progress" value={`${run.progress}%`} helper="Messages processed" />
-        <Metric label="Contacted" value={formatNumber(run.contacted)} helper="Customer touches" />
-        <Metric label="Failures" value={formatNumber(run.failed)} helper="Carrier or policy failures" />
+        <Metric accent="amber" label="Status" value={run.status} helper="Human review pause active" />
+        <Metric accent="blue" label="Progress" value={`${run.progress}%`} helper="Messages processed" />
+        <Metric accent="green" label="Contacted" value={formatNumber(run.contacted)} helper="Customer touches" />
+        <Metric accent="orange" label="Failures" value={formatNumber(run.failed)} helper="Carrier or policy failures" />
       </div>
       <div className="mt-6 grid gap-6 xl:grid-cols-[1fr_1fr]">
         <Card>

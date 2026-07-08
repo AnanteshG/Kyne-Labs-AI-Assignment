@@ -1,6 +1,7 @@
 import { AppShell } from "@/components/shell/AppShell";
 import { Badge } from "@/components/ui/Badge";
 import { Card, CardHeader } from "@/components/ui/Card";
+import { PageHeader } from "@/components/ui/PageHeader";
 
 const settings = [
   { title: "Teams and roles", detail: "Operators can draft and execute. Compliance approves customer contact. Admins manage integrations.", status: "Configured" },
@@ -11,10 +12,11 @@ const settings = [
 export default function SettingsPage() {
   return (
     <AppShell>
-      <div className="mb-6">
-        <p className="text-sm font-semibold uppercase tracking-wide text-muted">Settings</p>
-        <h1 className="mt-2 text-3xl font-semibold text-ink">Admin controls that do not belong in governance flow</h1>
-      </div>
+      <PageHeader
+        eyebrow="Settings"
+        title="Admin controls that do not belong in governance flow"
+        description="Team and integration setup stays here. Policy validation, approvals, and audit stay in the operating journey."
+      />
       <div className="grid gap-4">
         {settings.map((item) => (
           <Card key={item.title}>

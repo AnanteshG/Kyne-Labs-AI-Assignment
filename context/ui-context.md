@@ -12,6 +12,10 @@ The interface should feel like a serious banking operations cockpit: quiet, dens
 | `canvas` | `#f6f8fb` | App background |
 | `line` | `#d9e2ec` | Borders and dividers |
 | `muted` | `#64748b` | Secondary text |
+| `cobalt` | `#2457c5` | Primary informational accents |
+| `forest` | `#0f766e` | Operational progress accents |
+| `plum` | `#7c3aed` | Rare AI/coworker accent |
+| `clay` | `#b45309` | Operational exception accent |
 | `success` | `#118c5a` | Approved, ready, safe |
 | `warning` | `#b7791f` | Needs review |
 | `danger` | `#c2410c` | Blocked, risky, failed |

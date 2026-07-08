@@ -2,6 +2,7 @@ import Link from "next/link";
 import { AppShell } from "@/components/shell/AppShell";
 import { Badge } from "@/components/ui/Badge";
 import { Card, CardHeader } from "@/components/ui/Card";
+import { PageHeader } from "@/components/ui/PageHeader";
 import { riskTone } from "@/components/ui/Status";
 import { customers } from "@/server/mock-db";
 import { formatCurrency } from "@/lib/utils";
@@ -9,10 +10,11 @@ import { formatCurrency } from "@/lib/utils";
 export default function CustomersPage() {
   return (
     <AppShell>
-      <div className="mb-6">
-        <p className="text-sm font-semibold uppercase tracking-wide text-muted">Customers</p>
-        <h1 className="mt-2 text-3xl font-semibold text-ink">Operational customer context</h1>
-      </div>
+      <PageHeader
+        eyebrow="Customers"
+        title="Operational customer context"
+        description="Customer records remain available, but the primary journey starts from portfolio risk and Banking Hands."
+      />
       <Card>
         <CardHeader title="Customers in active portfolio" eyebrow="Embedded and standalone view" />
         <div className="overflow-x-auto">

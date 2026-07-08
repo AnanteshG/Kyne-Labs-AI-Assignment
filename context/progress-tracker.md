@@ -19,10 +19,11 @@ Update this file after every meaningful implementation change.
 - Added service and repository layer.
 - Added system design document.
 - Added Six-File Context files and agent entry point.
+- Reviewed 17 current-platform screenshots and applied a redesign pass to the shell, portfolio, readiness, coworker, hand detail, execution, and docs.
 
 ## In Progress
 
-- Polish UI, navigation, docs, and repository readiness.
+- Verify screenshot-driven UI polish with typecheck and production build.
 
 ## Next Up
 
@@ -33,7 +34,6 @@ Update this file after every meaningful implementation change.
 
 ## Open Questions
 
-- Awaiting current-platform screenshots for UI improvement pass.
 - Deployment target assumed to be Vercel.
 
 ## Architecture Decisions

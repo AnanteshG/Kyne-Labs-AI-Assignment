@@ -2,6 +2,7 @@ import { AppShell } from "@/components/shell/AppShell";
 import { Badge } from "@/components/ui/Badge";
 import { Button } from "@/components/ui/Button";
 import { Card, CardHeader } from "@/components/ui/Card";
+import { PageHeader } from "@/components/ui/PageHeader";
 import { StatusBadge, readinessTone } from "@/components/ui/Status";
 import { dataSources, policyPacks, validationReport } from "@/server/mock-db";
 import { formatNumber } from "@/lib/utils";
@@ -9,12 +10,21 @@ import { formatNumber } from "@/lib/utils";
 export default function DataPage() {
   return (
     <AppShell>
-      <div className="mb-6 flex flex-wrap items-end justify-between gap-4">
-        <div>
-          <p className="text-sm font-semibold uppercase tracking-wide text-muted">Data & policies hub</p>
-          <h1 className="mt-2 text-3xl font-semibold text-ink">Validate the operating ground before AI acts</h1>
-        </div>
+      <PageHeader
+        eyebrow="Data & policies hub"
+        title="One readiness gate for files, connectors, knowledge, consent, and policy packs"
+        description="Screenshots show integrations, templates, knowledge base, settings, and audit as separate surfaces. This hub turns them into a clear pre-flight path."
+        actions={
         <Button>Run validation</Button>
+        }
+      />
+      <div className="mb-6 grid gap-3 md:grid-cols-4">
+        {["Connect data", "Validate fields", "Apply policies", "Clear approvals"].map((step, index) => (
+          <div key={step} className={`rounded-lg border p-4 ${index < 2 ? "border-emerald-200 bg-emerald-50" : index === 2 ? "border-amber-200 bg-amber-50" : "border-orange-200 bg-orange-50"}`}>
+            <p className="text-xs font-semibold uppercase tracking-wide text-muted">Step {index + 1}</p>
+            <p className="mt-1 font-semibold text-ink">{step}</p>
+          </div>
+        ))}
       </div>
       <div className="grid gap-6 xl:grid-cols-[1fr_1fr]">
         <Card>
