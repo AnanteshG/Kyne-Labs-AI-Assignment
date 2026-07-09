@@ -288,58 +288,71 @@ export function PulseRail({ items }: { items: Array<{ label: string; detail: str
 }
 
 export function DonutMeter({ value, label, children }: { value: number; label: string; children?: ReactNode }) {
-  const options: ApexOptions = {
-    chart: {
-      animations: {
-        enabled: true,
-        speed: 900
-      },
-      fontFamily: "inherit",
-      type: "donut"
-    },
-    colors: ["#5750f1", "#5475e5", "#8099ec"],
-    dataLabels: { enabled: false },
-    labels: [label, "Review", "Blocked"],
-    legend: { show: false },
-    plotOptions: {
-      pie: {
-        donut: {
-          background: "transparent",
-          labels: {
-            show: true,
-            total: {
-              color: "#111827",
-              fontSize: "14px",
-              fontWeight: 700,
-              label: `${value}%`,
-              show: true,
-              showAlways: true
-            },
-            value: {
-              color: "#2563eb",
-              fontSize: "20px",
-              fontWeight: 800,
-              show: false
-            }
-          },
-          size: "78%"
-        }
-      }
-    },
-    stroke: {
-      colors: ["#ffffff"],
-      width: 4
-    },
-    tooltip: { enabled: false }
-  };
+  const safeValue = Math.max(0, Math.min(100, value));
+  const reviewValue = Math.min(100 - safeValue, 8);
+  const blockedValue = Math.max(0, 100 - safeValue - reviewValue);
+  const radius = 44;
+  const circumference = 2 * Math.PI * radius;
+  const contactableLength = (safeValue / 100) * circumference;
+  const reviewLength = (reviewValue / 100) * circumference;
+  const blockedLength = (blockedValue / 100) * circumference;
+  const reviewOffset = -contactableLength;
+  const blockedOffset = -(contactableLength + reviewLength);
 
   return (
     <div className="flex items-center gap-5">
-      <div className="h-32 w-32 shrink-0">
-        <Chart options={options} series={[value, Math.max(0, 100 - value - 8), 8]} type="donut" height={128} width={128} />
+      <div className="relative h-32 w-32 shrink-0" role="img" aria-label={`${label}: ${safeValue}%`}>
+        <svg viewBox="0 0 120 120" className="h-full w-full -rotate-90">
+          <circle cx="60" cy="60" r={radius} fill="none" stroke="#e2e8f0" strokeWidth="14" />
+          <circle
+            cx="60"
+            cy="60"
+            r={radius}
+            fill="none"
+            stroke="#2563eb"
+            strokeDasharray={`${contactableLength} ${circumference - contactableLength}`}
+            strokeLinecap="round"
+            strokeWidth="14"
+          />
+          {reviewLength > 0 ? (
+            <circle
+              cx="60"
+              cy="60"
+              r={radius}
+              fill="none"
+              stroke="#f59e0b"
+              strokeDasharray={`${reviewLength} ${circumference - reviewLength}`}
+              strokeDashoffset={reviewOffset}
+              strokeLinecap="round"
+              strokeWidth="14"
+            />
+          ) : null}
+          {blockedLength > 0 ? (
+            <circle
+              cx="60"
+              cy="60"
+              r={radius}
+              fill="none"
+              stroke="#94a3b8"
+              strokeDasharray={`${blockedLength} ${circumference - blockedLength}`}
+              strokeDashoffset={blockedOffset}
+              strokeLinecap="round"
+              strokeWidth="14"
+            />
+          ) : null}
+        </svg>
+        <div className="absolute inset-0 flex flex-col items-center justify-center">
+          <p className="text-2xl font-black tracking-tight text-ink">{safeValue}%</p>
+          <p className="text-[10px] font-semibold uppercase tracking-wide text-muted">Ready</p>
+        </div>
       </div>
       <div>
         <p className="text-sm font-semibold text-ink">{label}</p>
+        <div className="mt-3 grid gap-2 text-xs font-semibold text-slate-600">
+          <span className="flex items-center gap-2"><span className="h-2.5 w-2.5 rounded-sm bg-blue-600" /> Contactable</span>
+          <span className="flex items-center gap-2"><span className="h-2.5 w-2.5 rounded-sm bg-amber-500" /> Review</span>
+          <span className="flex items-center gap-2"><span className="h-2.5 w-2.5 rounded-sm bg-slate-400" /> Blocked</span>
+        </div>
         {children ? <div className="mt-2 text-sm leading-6 text-muted">{children}</div> : null}
       </div>
     </div>

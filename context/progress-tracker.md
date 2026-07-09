@@ -52,6 +52,11 @@ Update this file after every meaningful implementation change.
 - Audited platform pages and components, refreshed stale onboarding tour copy, and removed the unused Stepper primitive.
 - Fixed theme initialization so the platform opens in dark mode by default unless a user explicitly toggles light mode afterward.
 - Removed the visible React Flow canvas label from the workflows page and changed text status pills/buttons to square shadowed badges.
+- Generated a submission-ready scaling, GCP deployment, caching, error handling, tech stack, and platform explanation PDF.
+- Cleaned the Desktop system design explanation PDF by removing the first-page document title and the Strong Closing Speech section.
+- Regenerated the system design explanation PDF with cleaner tables, spaced workflow diagrams, and red section/table header styling.
+- Simplified the Approvals page into a compact review queue with summary metrics, shorter cards, policy chips, and clearer decision actions.
+- Replaced the Recovery Signal donut chart with a reliable SVG meter so the Last Run graph always renders.
 
 ## In Progress
 
@@ -80,3 +85,4 @@ Update this file after every meaningful implementation change.
 - User asked to remove any Codex co-author tag from commits.
 - User asked to ask before every push to GitHub.
 - System design explanation PDF created at `output/pdf/kyne-ai-system-design-explanation.pdf` and rendered to PNGs for layout QA.
+- Scaling and deployment PDF created at `output/pdf/kyne-ai-scaling-deployment-reliability.pdf` and visually checked with PyMuPDF-rendered pages.
