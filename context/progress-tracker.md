@@ -51,6 +51,7 @@ Update this file after every meaningful implementation change.
 - Moved shell search from the sidebar into a compact top-navbar search and made it route to workflows, customers, hands, runs, approvals, integrations, audit, data, coworker, portfolio, or settings based on the query.
 - Audited platform pages and components, refreshed stale onboarding tour copy, and removed the unused Stepper primitive.
 - Fixed theme initialization so the platform opens in dark mode by default unless a user explicitly toggles light mode afterward.
+- Removed the visible React Flow canvas label from the workflows page and changed text status pills/buttons to square shadowed badges.
 
 ## In Progress
 

@@ -425,7 +425,7 @@ export function AppShell({ children }: { children: ReactNode }) {
         <button
           type="button"
           onClick={() => setAiOpen((value) => !value)}
-          className="animate-kyne-float animate-kyne-glow relative flex items-center gap-2 rounded-full bg-blue-700 px-4 py-3 text-sm font-black !text-white shadow-raised ring-1 ring-white/25 transition hover:bg-blue-800"
+          className="animate-kyne-float animate-kyne-glow relative flex items-center gap-2 rounded-md bg-blue-700 px-4 py-3 text-sm font-black !text-white shadow-raised ring-1 ring-white/25 transition hover:bg-blue-800"
         >
           <span className="relative z-10 leading-none text-white drop-shadow-sm">Ask AI</span>
           <span className="absolute -right-1 -top-1 h-3 w-3 rounded-full bg-sky-300 shadow-[0_0_18px_rgba(56,189,248,0.9)]" />

@@ -186,7 +186,6 @@ export default function WorkflowsPage() {
         eyebrow="Workflows"
         title="Run governed Banking Hand workflows"
         description="Select approved workflow templates, launch several runs together, monitor active execution, and review completed history."
-        actions={<Badge tone="info">React Flow canvas</Badge>}
       />
 
       <div className="mb-8 grid gap-6 xl:grid-cols-[1.05fr_0.95fr]">

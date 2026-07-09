@@ -26,7 +26,7 @@ export function ProgressBar({ value, tone = "blue" }: { value: number; tone?: "b
 export function Delta({ value }: { value: number }) {
   const positive = value > 0;
   return (
-    <span className={cn("inline-flex items-center rounded-full px-2 py-1 text-xs font-medium", positive ? "bg-red-50 text-red-700" : "bg-emerald-50 text-emerald-700")}>
+    <span className={cn("inline-flex items-center rounded-md px-2 py-1 text-xs font-semibold shadow-sm", positive ? "bg-red-50 text-red-700" : "bg-emerald-50 text-emerald-700")}>
       {positive ? "+" : ""}
       {value}%
     </span>
@@ -146,7 +146,7 @@ export function AreaTrend({
     <div className="min-w-0 rounded-xl border border-line bg-white p-4 shadow-tremor">
       <div className="mb-3 flex items-center justify-between gap-3">
         <p className="truncate text-sm font-semibold text-ink">{label}</p>
-        <span className={cn("rounded-full border px-2 py-1 text-xs font-medium", toneValue.soft)}>Live</span>
+        <span className={cn("rounded-md border px-2 py-1 text-xs font-semibold shadow-sm", toneValue.soft)}>Live</span>
       </div>
       <div className="-mx-3 -mb-3 h-40">
         <Chart

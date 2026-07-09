@@ -109,7 +109,7 @@ function BankingModuleNode({ data, selected }: NodeProps<Node<WorkflowNodeData>>
               <p className="mt-0.5 text-[10px] font-bold uppercase tracking-wide text-white/75">{data.kind}</p>
             </div>
           </div>
-          <span className="shrink-0 rounded-full bg-white/20 px-2 py-1 text-[10px] font-black text-white ring-1 ring-white/30">{data.status}</span>
+          <span className="shrink-0 rounded-md bg-white/20 px-2 py-1 text-[10px] font-black text-white shadow-sm ring-1 ring-white/30">{data.status}</span>
         </div>
       </div>
       <div className="p-4">
@@ -120,7 +120,7 @@ function BankingModuleNode({ data, selected }: NodeProps<Node<WorkflowNodeData>>
           <span className="rounded-md border border-slate-200 bg-white px-2 py-1">HITL</span>
         </div>
         <div className="mt-3 flex items-center justify-between gap-2">
-          <span className={`rounded-full border px-2 py-1 text-[10px] font-black ${styles.badge}`}>{data.status}</span>
+          <span className={`rounded-md border px-2 py-1 text-[10px] font-black shadow-sm ${styles.badge}`}>{data.status}</span>
           <span className="text-[10px] font-bold uppercase tracking-wide text-[#64748b]">Drag to arrange</span>
         </div>
       </div>
