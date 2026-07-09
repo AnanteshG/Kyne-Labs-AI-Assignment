@@ -250,18 +250,18 @@ export function FlowRibbon({
   steps: Array<{ label: string; value: string; tone?: keyof typeof chartTones }>;
 }) {
   return (
-    <div className="grid gap-3 sm:grid-cols-2 xl:grid-cols-4">
+    <div className="grid gap-3 [grid-template-columns:repeat(auto-fit,minmax(7.75rem,1fr))]">
       {steps.map((step, index) => (
         <div key={step.label} className="relative min-w-0 rounded-xl border border-line bg-white p-4 shadow-tremor">
           <div className={cn("absolute left-0 top-0 h-1 w-full rounded-t-xl", chartTones[step.tone ?? "blue"].bar)} />
           {index < steps.length - 1 ? (
-            <div className="absolute right-[-20px] top-1/2 hidden w-10 items-center xl:flex" aria-hidden="true">
+            <div className="absolute right-[-20px] top-1/2 hidden w-10 items-center 2xl:flex" aria-hidden="true">
               <span className="h-px flex-1 bg-blue-200" />
               <span className="-ml-1 h-2 w-2 rotate-45 border-r-2 border-t-2 border-blue-400" />
             </div>
           ) : null}
           <p className="text-xs font-semibold uppercase tracking-wide text-muted">{step.label}</p>
-          <p className="mt-2 truncate text-lg font-semibold text-ink">{step.value}</p>
+          <p className="mt-2 text-lg font-semibold leading-6 text-ink">{step.value}</p>
         </div>
       ))}
     </div>

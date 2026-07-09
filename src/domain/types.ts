@@ -4,6 +4,8 @@ export type ReadinessStatus = "ready" | "review" | "blocked";
 export type HandStatus = "draft" | "validated" | "approval_required" | "approved" | "scheduled" | "running" | "completed";
 export type ApprovalStatus = "pending" | "approved" | "changes_requested" | "rejected";
 export type RiskLevel = "low" | "medium" | "high";
+export type SimulationStatus = "not_run" | "queued" | "running" | "completed" | "failed";
+export type RiskSeverity = "very low" | "low" | "medium" | "high";
 
 export interface User {
   id: string;
@@ -105,6 +107,9 @@ export interface BankingHand {
 export interface Approval {
   id: string;
   handId: string;
+  handVersionId?: string;
+  policyPackId?: string;
+  simulationReportId?: string;
   title: string;
   status: ApprovalStatus;
   reviewerRole: Role;
@@ -116,6 +121,46 @@ export interface Approval {
   riskSummary: string;
   aiRationale: string;
   requestedAt: string;
+}
+
+export interface SimulationReport {
+  id: string;
+  tenantId: string;
+  handId: string;
+  handVersionId: string;
+  handVersionLabel: string;
+  policyPackId: string;
+  policyPackVersion: string;
+  status: SimulationStatus;
+  targetSegment: string;
+  totalBorrowers: number;
+  eligibleBorrowers: number;
+  blockedBorrowers: number;
+  blockedBreakdown: {
+    dnc: number;
+    missingConsent: number;
+    quietHours: number;
+    frequencyCap: number;
+    invalidContact: number;
+    policyBlocked: number;
+  };
+  expectedRecoveryAmount: number;
+  expectedPromiseToPayRate: number;
+  optOutRisk: RiskLevel;
+  complaintRisk: RiskLevel;
+  complianceRisk: "passed" | "warning" | "blocked";
+  recommendedVariantId: string;
+  createdAt: string;
+}
+
+export interface SimulationVariant {
+  id: string;
+  name: string;
+  channelOrder: string;
+  expectedRecoveryAmount: number;
+  riskLevel: RiskSeverity;
+  decision: string;
+  notes: string;
 }
 
 export interface Run {

@@ -39,6 +39,7 @@ Update this file after every meaningful implementation change.
 - Expanded Portfolio, Data & Protocol Hub, AI Coworker, Banking Hands, Hand Detail, Approvals, Runs, and Run Detail screens to show regulated collections workflow, governance gates, borrower outreach logic, and audit evidence.
 - Added an in-app System Design page covering Kyne's six Agent OS layers, architecture diagram, outreach lifecycle flow, backend services, entities, API table, REST vs SSE, scaling, deployment, RBAC, and security/compliance principles.
 - Synced `docs/system-design.md` with the new IA, routes, entities, service boundaries, API contract coverage, real-time strategy, and backend governance invariant.
+- Generated a submission-ready system design explanation PDF with the supplied architecture image, normalized backend explanation text, page numbering, and visual rendering checks.
 
 ## In Progress
 
@@ -66,3 +67,4 @@ Update this file after every meaningful implementation change.
 - User asked for npm/npx only, not pnpm.
 - User asked to remove any Codex co-author tag from commits.
 - User asked to ask before every push to GitHub.
+- System design explanation PDF created at `output/pdf/kyne-ai-system-design-explanation.pdf` and rendered to PNGs for layout QA.

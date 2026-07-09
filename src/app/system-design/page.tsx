@@ -44,6 +44,7 @@ const services = [
   "Borrower / Case Service",
   "Data Ingestion Service",
   "Protocol Hub / Policy Service",
+  "Simulation Service",
   "Agent Orchestrator",
   "Banking Hand / Workflow Service",
   "Approval Service",
@@ -55,7 +56,7 @@ const services = [
 ];
 
 const entities = [
-  "Tenant", "User", "Role", "Borrower", "Account", "Case", "PortfolioUpload", "PolicyPack", "ProtocolRule", "BorrowerPersona", "BankingHand", "HandVersion", "Approval", "Run", "RunEvent", "ConversationMessage", "AuditEvent", "IntegrationConnection", "Outcome"
+  "Tenant", "User", "Role", "Borrower", "Account", "Case", "PortfolioUpload", "PolicyPack", "ProtocolRule", "BorrowerPersona", "BankingHand", "HandVersion", "SimulationReport", "SimulationVariant", "SimulationPolicyBlock", "Approval", "Run", "RunEvent", "ConversationMessage", "AuditEvent", "IntegrationConnection", "Outcome"
 ];
 
 const rbac = [
@@ -80,6 +81,29 @@ export default function SystemDesignPage() {
         <p className="text-sm leading-6 text-blue-950">
           I understood Kyne as an Agent OS for regulated lenders, not just a collections dashboard. The system has to ingest portfolio and borrower data, reason over borrower context, create governed workflows, execute outreach across voice, SMS, and email, and record every step for compliance.
         </p>
+      </Card>
+
+      <Card className="mt-8 border-amber-200 bg-amber-50">
+        <CardHeader title="Original Product Addition: Pre-flight Simulator" eyebrow="Governance and risk analysis" />
+        <p className="text-sm leading-6 text-amber-950">
+          The Pre-flight Simulator makes governance more proactive. Instead of only asking whether a Banking Hand can run, it helps operators and compliance officers understand what is likely to happen if it runs. It evaluates the selected hand version against borrower data, consent, DNC status, policy rules, quiet-hour restrictions, frequency caps, and historical outcomes before any borrower-facing action is sent.
+        </p>
+        <div className="mt-4 space-y-4 text-sm leading-6 text-slate-700">
+          <p className="font-semibold text-slate-900">Flow</p>
+          <ul className="list-disc space-y-2 pl-5">
+            <li>Banking Hand draft</li>
+            <li>Fetch target borrower segment</li>
+            <li>Apply consent, DNC, quiet-hour, frequency-cap, and policy checks</li>
+            <li>Estimate recovery and risk using historical outcomes</li>
+            <li>Generate simulation report</li>
+            <li>Attach report to approval request</li>
+            <li>Compliance reviews simulation before approving execution</li>
+          </ul>
+          <p className="font-semibold text-slate-900">Simulation Service</p>
+          <p>The Simulation Service works with Banking Hand Service, Borrower / Case Service, Protocol Hub / Policy Service, Analytics Service, Approval Service, and Audit Service. It provides dry-run results tied to hand versions, policy packs, tenants, and immutable simulation report IDs.</p>
+          <p className="font-semibold text-slate-900">Audit and data model</p>
+          <p>Simulation results are stored because compliance approval must reference the exact simulation report used during decision-making. Every simulation should create audit events: simulation.started, simulation.completed, simulation.attached_to_approval, and approval.resolved_with_simulation. Pre-flight simulation does not send messages, trigger calls, or mutate borrower state. It is a dry run used for governance, risk review, and expected outcome analysis.</p>
+        </div>
       </Card>
 
       <div className="mt-8 grid gap-5 md:grid-cols-2 xl:grid-cols-3">

@@ -12,6 +12,8 @@ import type {
   PortfolioSummary,
   Run,
   RunEvent,
+  SimulationReport,
+  SimulationVariant,
   User,
   ValidationReport
 } from "@/domain/types";
@@ -145,10 +147,84 @@ export const hands: BankingHand[] = [
   { id: "h3", name: "Card upgrade eligibility outreach", mode: "cross_sell", status: "draft", owner: "Dev Arora", risk: "medium", audience: "8,440 borrowers", targetSegment: "Eligible borrowers with explicit marketing consent", channels: ["Email", "SMS"], approvalState: "changes_requested", lastRunOutcome: "Not run - consent basis incomplete", nextAction: "Resolve consent policy", approvalsRequired: 2, approvalsResolved: 0, createdAt: "2 days ago" }
 ];
 
+export const simulationReports: SimulationReport[] = [
+  {
+    id: "sr1",
+    tenantId: "t1",
+    handId: "h1",
+    handVersionId: "hv4",
+    handVersionLabel: "v4",
+    policyPackId: "pp2",
+    policyPackVersion: "v12",
+    status: "completed",
+    targetSegment: "30–59 DPD cooperative borrowers",
+    totalBorrowers: 2430,
+    eligibleBorrowers: 2118,
+    blockedBorrowers: 312,
+    blockedBreakdown: {
+      dnc: 94,
+      missingConsent: 146,
+      quietHours: 31,
+      frequencyCap: 18,
+      invalidContact: 23,
+      policyBlocked: 0
+    },
+    expectedRecoveryAmount: 184000,
+    expectedPromiseToPayRate: 18,
+    optOutRisk: "low",
+    complaintRisk: "medium",
+    complianceRisk: "passed",
+    recommendedVariantId: "sv1",
+    createdAt: "Today, 12:02"
+  }
+];
+
+export const simulationVariants: SimulationVariant[] = [
+  {
+    id: "sv1",
+    name: "Variant A",
+    channelOrder: "SMS → Email",
+    expectedRecoveryAmount: 184000,
+    riskLevel: "low",
+    decision: "Recommended",
+    notes: "Balanced delivery with compliant payment link scheduling."
+  },
+  {
+    id: "sv2",
+    name: "Variant B",
+    channelOrder: "Voice → SMS",
+    expectedRecoveryAmount: 211000,
+    riskLevel: "medium",
+    decision: "Needs stricter review",
+    notes: "Higher recovery but higher compliance and opt-out sensitivity."
+  },
+  {
+    id: "sv3",
+    name: "Variant C",
+    channelOrder: "Email only",
+    expectedRecoveryAmount: 92000,
+    riskLevel: "low",
+    decision: "Weak recovery",
+    notes: "Lowest delivery risk but modest recovery impact."
+  },
+  {
+    id: "sv4",
+    name: "Variant D",
+    channelOrder: "SMS + payment plan",
+    expectedRecoveryAmount: 167000,
+    riskLevel: "very low",
+    decision: "Safest option",
+    notes: "Safest contact path with payment plan offer and minimal escalation."
+  }
+];
+
 export const approvals: Approval[] = [
   {
     id: "ap1",
     handId: "h1",
+    handVersionId: "hv4",
+    policyPackId: "pp2",
+    simulationReportId: "sr1",
     title: "Approve SMS copy for 30-59 DPD borrowers",
     status: "pending",
     reviewerRole: "compliance",
@@ -168,6 +244,9 @@ export const approvals: Approval[] = [
   {
     id: "ap2",
     handId: "h1",
+    handVersionId: "hv4",
+    policyPackId: "pp2",
+    simulationReportId: "sr1",
     title: "Approve quiet-hour policy edge cases",
     status: "approved",
     reviewerRole: "compliance",
@@ -267,6 +346,10 @@ export const apiContracts: ApiContract[] = [
   { method: "GET", path: "/api/hands/:id", owner: "Banking Hand / Workflow Service", purpose: "Read lifecycle, sequence, checks, approvals, history", realtime: "REST" },
   { method: "POST", path: "/api/hands/:id/validate", owner: "Agent Orchestrator", purpose: "Run pre-flight validation", realtime: "REST" },
   { method: "POST", path: "/api/hands/:id/submit-for-approval", owner: "Approval Service", purpose: "Open approval gates", realtime: "REST" },
+  { method: "POST", path: "/api/hands/:id/simulations", owner: "Simulation Service", purpose: "Start a pre-flight simulation for a specific hand version.", realtime: "REST" },
+  { method: "GET", path: "/api/simulations/:id", owner: "Simulation Service", purpose: "Fetch simulation summary, blocked borrower counts, expected recovery, and risk.", realtime: "REST" },
+  { method: "GET", path: "/api/simulations/:id/events", owner: "Simulation Service", purpose: "Stream simulation progress if the simulation is long-running.", realtime: "SSE" },
+  { method: "POST", path: "/api/simulations/:id/compare", owner: "Simulation Service", purpose: "Compare alternate outreach strategies.", realtime: "REST" },
   { method: "GET", path: "/api/approvals", owner: "Approval Service", purpose: "Approval queue", realtime: "REST" },
   { method: "GET", path: "/api/approvals/:id", owner: "Approval Service", purpose: "Approval detail", realtime: "REST" },
   { method: "POST", path: "/api/approvals/:id/resolve", owner: "Approval Service", purpose: "Approve, reject, or request changes", realtime: "REST" },
