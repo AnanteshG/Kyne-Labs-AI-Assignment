@@ -42,6 +42,13 @@ Update this file after every meaningful implementation change.
 - Generated a submission-ready system design explanation PDF with the supplied architecture image, normalized backend explanation text, page numbering, and visual rendering checks.
 - Fixed the shared FlowRibbon readiness layout so SMS, Email, Voice, and Audit status tiles remain readable on login and AI coworker pages.
 - Removed the in-app System Design page from the product platform, exposed the React Flow workflow canvas through `/workflows`, and updated RBAC/navigation/docs accordingly.
+- Added workflow multi-run controls on `/workflows` with selectable workflow templates, queue selected, active run controls, completed run history, and the existing React Flow canvas.
+- Simplified `/login` into a minimal role picker without dashboard cards or chart panels.
+- Fixed the floating Ask AI button label contrast so the text remains visible.
+- Fixed React Flow node body text contrast so workflow node labels and details remain readable in dark mode.
+- Removed the top navbar Data status and Channel risk chips to simplify the shell header.
+- Redesigned `/integrations` as a neat logo-first connector grid with minimal labels and statuses.
+- Moved shell search from the sidebar into a compact top-navbar search and made it route to workflows, customers, hands, runs, approvals, integrations, audit, data, coworker, portfolio, or settings based on the query.
 
 ## In Progress
 

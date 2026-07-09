@@ -4,7 +4,6 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import {
   Activity,
-  AlertTriangle,
   Bell,
   Bot,
   BriefcaseBusiness,
@@ -41,6 +40,20 @@ const navItems = [
   { href: "/runs", label: "Runs", icon: Activity },
   { href: "/audit", label: "Audit", icon: FileText },
   { href: "/integrations", label: "Integrations", icon: Plug }
+];
+
+const searchableRoutes = [
+  { keywords: ["portfolio", "dashboard", "home", "exposure"], href: "/portfolio" },
+  { keywords: ["data", "protocol", "policy", "readiness", "hub"], href: "/data" },
+  { keywords: ["ai", "coworker", "limbus", "workspace"], href: "/workspace" },
+  { keywords: ["workflow", "workflows", "canvas", "agent", "agents"], href: "/workflows" },
+  { keywords: ["hand", "hands", "banking hand", "banking hands"], href: "/hands" },
+  { keywords: ["approval", "approvals", "review", "pending"], href: "/approvals" },
+  { keywords: ["run", "runs", "execution", "monitor"], href: "/runs" },
+  { keywords: ["audit", "history", "log", "logs"], href: "/audit" },
+  { keywords: ["integration", "integrations", "connector", "connectors", "hubspot", "stripe", "paypal", "gmail", "slack"], href: "/integrations" },
+  { keywords: ["customer", "customers", "borrower", "borrowers", "account", "accounts"], href: "/customers" },
+  { keywords: ["setting", "settings", "admin"], href: "/settings" }
 ];
 
 export function AppShell({ children }: { children: ReactNode }) {
@@ -105,7 +118,14 @@ export function AppShell({ children }: { children: ReactNode }) {
     event.preventDefault();
     const query = search.trim();
     if (!query) return;
-    router.push(`/customers?search=${encodeURIComponent(query)}`);
+    const normalizedQuery = query.toLowerCase();
+    const route = searchableRoutes.find((item) => item.keywords.some((keyword) => normalizedQuery.includes(keyword) || keyword.includes(normalizedQuery)));
+    const href = route?.href ?? "/customers";
+    const root = href.split("/")[1] || "portfolio";
+    const accessibleHref = canAccessRoute(role, root) ? href : roleHome[role];
+    const withQuery = accessibleHref === "/customers" ? `${accessibleHref}?search=${encodeURIComponent(query)}` : accessibleHref;
+    router.push(withQuery);
+    setSearch("");
     setSidebarOpen(false);
   }
 
@@ -163,15 +183,6 @@ export function AppShell({ children }: { children: ReactNode }) {
         <div className="mt-4 rounded-xl border border-line bg-white p-3 shadow-tremor">
           <p className="text-[11px] font-semibold uppercase tracking-wide text-muted">Tenant</p>
           <p className="mt-1 truncate text-sm font-semibold text-ink">Debt Collections Team</p>
-          <form onSubmit={submitSearch} className="mt-4 flex min-w-0 items-center gap-2 rounded-lg border border-line bg-slate-50 px-3 py-2.5 text-xs text-muted transition focus-within:border-blue-300 focus-within:bg-white">
-            <Search size={14} className="shrink-0" />
-            <input
-              value={search}
-              onChange={(event) => setSearch(event.target.value)}
-              className="min-w-0 flex-1 bg-transparent text-xs font-medium text-ink outline-none placeholder:text-muted"
-              placeholder="Search hands, runs, borrowers"
-            />
-          </form>
         </div>
       ) : null}
 
@@ -267,6 +278,15 @@ export function AppShell({ children }: { children: ReactNode }) {
             </div>
 
             <div className="flex min-w-0 shrink-0 items-center gap-3">
+              <form onSubmit={submitSearch} className="hidden min-w-0 items-center gap-2 rounded-lg border border-line bg-slate-50 px-3 py-2 text-xs text-muted transition focus-within:border-blue-300 focus-within:bg-white md:flex md:w-52 xl:w-64">
+                <Search size={14} className="shrink-0" />
+                <input
+                  value={search}
+                  onChange={(event) => setSearch(event.target.value)}
+                  className="min-w-0 flex-1 bg-transparent text-xs font-semibold text-ink outline-none placeholder:text-muted"
+                  placeholder="Search"
+                />
+              </form>
               <div className="nav-font hidden items-center rounded-lg border border-line bg-slate-50 p-1 lg:flex">
                 {["Debt Collection", "Invoice Collection", "Cross-sell"].map((item) => (
                   <button
@@ -283,20 +303,9 @@ export function AppShell({ children }: { children: ReactNode }) {
                 ))}
               </div>
               <div className="nav-font hidden items-center gap-2 xl:flex">
-                <div className="rounded-lg border border-line bg-white px-3 py-2">
-                  <p className="text-[10px] font-semibold uppercase tracking-wide text-muted">Data status</p>
-                  <p className="mt-0.5 text-xs font-bold text-emerald-700">Ready</p>
-                </div>
                 <Link href="/approvals" className="rounded-lg border border-line bg-white px-3 py-2 transition hover:border-amber-300 hover:bg-amber-50">
                   <p className="text-[10px] font-semibold uppercase tracking-wide text-muted">Approvals</p>
                   <p className="mt-0.5 text-xs font-bold text-amber-800">2 pending reviews</p>
-                </Link>
-                <Link href="/data" className="rounded-lg border border-line bg-white px-3 py-2 transition hover:border-red-300 hover:bg-red-50">
-                  <p className="flex items-center gap-1 text-[10px] font-semibold uppercase tracking-wide text-muted">
-                    <AlertTriangle size={11} />
-                    Channel risk
-                  </p>
-                  <p className="mt-0.5 text-xs font-bold text-red-700">Voice blocked</p>
                 </Link>
               </div>
               <button
@@ -415,9 +424,9 @@ export function AppShell({ children }: { children: ReactNode }) {
         <button
           type="button"
           onClick={() => setAiOpen((value) => !value)}
-          className="animate-kyne-float animate-kyne-glow relative flex items-center gap-2 rounded-full bg-blue-600 px-4 py-3 text-sm font-bold text-white shadow-raised transition hover:bg-blue-700"
+          className="animate-kyne-float animate-kyne-glow relative flex items-center gap-2 rounded-full bg-blue-700 px-4 py-3 text-sm font-black !text-white shadow-raised ring-1 ring-white/25 transition hover:bg-blue-800"
         >
-          Ask AI
+          <span className="relative z-10 leading-none text-white drop-shadow-sm">Ask AI</span>
           <span className="absolute -right-1 -top-1 h-3 w-3 rounded-full bg-sky-300 shadow-[0_0_18px_rgba(56,189,248,0.9)]" />
         </button>
       </div>

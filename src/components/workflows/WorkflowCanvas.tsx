@@ -113,15 +113,15 @@ function BankingModuleNode({ data, selected }: NodeProps<Node<WorkflowNodeData>>
         </div>
       </div>
       <div className="p-4">
-        <p className="text-xs font-semibold leading-5 text-slate-700">{data.detail}</p>
-        <div className="mt-4 grid grid-cols-3 gap-2 text-center text-[10px] font-black text-slate-600">
+        <p className="text-xs font-semibold leading-5 text-[#172033]">{data.detail}</p>
+        <div className="mt-4 grid grid-cols-3 gap-2 text-center text-[10px] font-black text-[#475569]">
           <span className="rounded-md border border-slate-200 bg-white px-2 py-1">Policy</span>
           <span className="rounded-md border border-slate-200 bg-white px-2 py-1">Audit</span>
           <span className="rounded-md border border-slate-200 bg-white px-2 py-1">HITL</span>
         </div>
         <div className="mt-3 flex items-center justify-between gap-2">
           <span className={`rounded-full border px-2 py-1 text-[10px] font-black ${styles.badge}`}>{data.status}</span>
-          <span className="text-[10px] font-bold uppercase tracking-wide text-slate-500">Drag to arrange</span>
+          <span className="text-[10px] font-bold uppercase tracking-wide text-[#64748b]">Drag to arrange</span>
         </div>
       </div>
       <Handle type="source" position={Position.Right} className="!h-3.5 !w-3.5 !border-2 !border-white !bg-sky-500" />

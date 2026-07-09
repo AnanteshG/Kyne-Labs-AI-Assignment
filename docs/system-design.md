@@ -11,7 +11,7 @@ Reference screenshot review: the current platform separates collection overview,
 | Collections overview / dashboard | Keep and redesign as home base | `/portfolio` |
 | Connectors / files / knowledge / policy | Merge into readiness hub | `/data` |
 | AI / chat page | Redesign as coworker workspace | `/workspace` |
-| Workflow list / detail / Banking Hands | Merge into Banking Hands | `/hands`, `/hands/[id]` |
+| Workflow canvas / workflow execution | Keep as operational workflow control | `/workflows`, `/hands`, `/hands/[id]` |
 | Customers list / detail | Keep as standalone and embedded context | `/customers`, `/customers/[id]` |
 | Approvals queue | Keep and elevate | `/approvals` |
 | Live runs / activity feeds / logs | Merge into execution and audit detail | `/runs/[id]` |
@@ -21,7 +21,7 @@ Key merge decisions:
 
 - Overview, communication, payment, dashboard, and bucket performance become `/portfolio`.
 - Integrations, templates, knowledge base, policy readiness, and validation become `/data`.
-- Workflows and agents become a dedicated `/workflows` canvas plus governed hand detail in `/hands` and `/hands/[id]`.
+- Workflows and agents become a dedicated `/workflows` canvas with multi-run launch and history, plus governed hand detail in `/hands` and `/hands/[id]`.
 - Observability, usage, run logs, and audit logs become `/runs` and `/runs/[id]`.
 - The side AI panel becomes a full coworker workspace at `/workspace`, with a floating Ask AI shortcut available throughout the authenticated app shell.
 
@@ -36,10 +36,22 @@ Navigation uses one persistent shell with a collapsible sidebar, first-run onboa
 - States: ready
 - Actions: select role, enter app
 - Guards: none for prototype
-- Components: role cards, product positioning panel
+- Components: minimal role selector, continue action
 - State: mock role passed through URL/session concept
 - Backend: `POST /api/auth/login`
 - Failure: unavailable role falls back to operator
+
+### Workflows - `/workflows`
+
+- Primary user: operator, compliance, admin, ops leader
+- Goal: select one or more governed workflow templates, queue several runs together, monitor active execution, and inspect completed workflow history
+- States: selected, queued, running, paused, completed
+- Actions: select workflow, queue selected, run, pause, complete, select all, edit canvas
+- Guards: borrower-facing execution still depends on policy, consent, approval, and runtime checks
+- Components: launch queue, active run monitor, run history table, React Flow canvas
+- State: local mock workflow run state
+- Backend: production would use `POST /api/hands/:id/runs`, `GET /api/runs`, `GET /api/runs/:id/events`, and audit events
+- Failure: blocked channels remain paused and visible in run history
 
 ### Portfolio - `/portfolio`
 
