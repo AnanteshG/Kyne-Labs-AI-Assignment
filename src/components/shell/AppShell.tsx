@@ -109,6 +109,7 @@ export function AppShell({ children }: { children: ReactNode }) {
     setDarkMode(next);
     document.documentElement.classList.toggle("dark", next);
     localStorage.setItem("kyne-theme", next ? "dark" : "light");
+    localStorage.setItem("kyne-theme-explicit", "true");
   }
 
   const sidebarWidth = collapsed ? "lg:w-20" : "lg:w-72";

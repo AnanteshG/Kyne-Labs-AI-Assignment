@@ -49,6 +49,8 @@ Update this file after every meaningful implementation change.
 - Removed the top navbar Data status and Channel risk chips to simplify the shell header.
 - Redesigned `/integrations` as a neat logo-first connector grid with minimal labels and statuses.
 - Moved shell search from the sidebar into a compact top-navbar search and made it route to workflows, customers, hands, runs, approvals, integrations, audit, data, coworker, portfolio, or settings based on the query.
+- Audited platform pages and components, refreshed stale onboarding tour copy, and removed the unused Stepper primitive.
+- Fixed theme initialization so the platform opens in dark mode by default unless a user explicitly toggles light mode afterward.
 
 ## In Progress
 

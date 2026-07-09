@@ -7,13 +7,13 @@ const steps: Step[] = [
   {
     target: "[data-tour='sidebar']",
     title: "Navigate operations",
-    content: "Move between portfolio health, Protocol Hub readiness, AI coworker, Banking Hands, approvals, runs, audit, integrations, and system design.",
+    content: "Move between portfolio health, Protocol Hub readiness, AI coworker, workflows, Banking Hands, approvals, runs, audit, and integrations.",
     skipBeacon: true
   },
   {
     target: "[data-tour='topbar']",
     title: "Check status and profile",
-    content: "The top bar shows the current mode, role context, operational readiness, pending approvals, channel risk, and tenant profile."
+    content: "The top bar shows search, current mode, role context, pending approvals, notifications, theme, and profile."
   },
   {
     target: "[data-tour='ask-ai']",

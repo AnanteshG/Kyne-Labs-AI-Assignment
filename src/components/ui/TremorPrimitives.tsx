@@ -345,17 +345,3 @@ export function DonutMeter({ value, label, children }: { value: number; label: s
     </div>
   );
 }
-
-export function Stepper({ current = 1 }: { current?: number }) {
-  const steps = ["Portfolio", "Readiness", "Draft", "Approve", "Run", "Audit"];
-  return (
-    <div className="flex min-w-0 flex-nowrap items-center gap-1.5 overflow-x-auto pb-1">
-      {steps.map((step, index) => (
-        <div key={step} className={cn("nav-font flex shrink-0 items-center gap-2 rounded-full border px-3 py-1.5 text-[11px] font-semibold", index <= current ? "border-blue-200 bg-blue-50 text-blue-700" : "border-slate-200 bg-white text-slate-500")}>
-          <span className={cn("h-1.5 w-1.5 rounded-full", index <= current ? "bg-blue-600 shadow-[0_0_10px_rgba(37,99,235,0.65)]" : "bg-slate-300")} />
-          {step}
-        </div>
-      ))}
-    </div>
-  );
-}
