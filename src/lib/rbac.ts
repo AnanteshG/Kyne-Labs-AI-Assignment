@@ -8,10 +8,10 @@ export const roleHome: Record<Role, string> = {
 };
 
 export const roleAccess: Record<Role, string[]> = {
-  operator: ["portfolio", "data", "protocol-hub", "workspace", "coworker", "hands", "runs", "audit", "integrations", "system-design", "customers"],
-  compliance: ["portfolio", "data", "protocol-hub", "hands", "approvals", "runs", "audit", "integrations", "system-design", "customers"],
-  admin: ["portfolio", "data", "protocol-hub", "workspace", "coworker", "hands", "approvals", "runs", "audit", "integrations", "system-design", "customers", "settings"],
-  ops_leader: ["portfolio", "data", "hands", "approvals", "runs", "audit", "integrations", "system-design", "customers"]
+  operator: ["portfolio", "data", "protocol-hub", "workspace", "coworker", "workflows", "hands", "runs", "audit", "integrations", "customers"],
+  compliance: ["portfolio", "data", "protocol-hub", "workflows", "hands", "approvals", "runs", "audit", "integrations", "customers"],
+  admin: ["portfolio", "data", "protocol-hub", "workspace", "coworker", "workflows", "hands", "approvals", "runs", "audit", "integrations", "customers", "settings"],
+  ops_leader: ["portfolio", "data", "workflows", "hands", "approvals", "runs", "audit", "integrations", "customers"]
 };
 
 export const roleNames: Record<Role, string> = {

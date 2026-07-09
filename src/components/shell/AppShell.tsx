@@ -16,12 +16,12 @@ import {
   LayoutDashboard,
   Menu,
   Moon,
-  Network,
   Plug,
   Send,
   Search,
   ShieldCheck,
   Sun,
+  Workflow,
   X,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
@@ -35,12 +35,12 @@ const navItems = [
   { href: "/portfolio", label: "Portfolio", icon: LayoutDashboard },
   { href: "/data", label: "Data & Protocol Hub", icon: Database },
   { href: "/workspace", label: "AI Coworker", icon: Bot },
+  { href: "/workflows", label: "Workflows", icon: Workflow },
   { href: "/hands", label: "Banking Hands", icon: BriefcaseBusiness },
   { href: "/approvals", label: "Approvals", icon: CheckSquare },
   { href: "/runs", label: "Runs", icon: Activity },
   { href: "/audit", label: "Audit", icon: FileText },
-  { href: "/integrations", label: "Integrations", icon: Plug },
-  { href: "/system-design", label: "System Design", icon: Network }
+  { href: "/integrations", label: "Integrations", icon: Plug }
 ];
 
 export function AppShell({ children }: { children: ReactNode }) {

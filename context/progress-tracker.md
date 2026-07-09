@@ -34,12 +34,14 @@ Update this file after every meaningful implementation change.
 - Added client-side mock RBAC with role-specific navigation, route redirects, persisted role selection, and a redesigned role-based login page.
 - Converted the floating Ask AI shortcut into an in-place Limbus chatbot and removed its decorative button icon and page navigation.
 - Reframed the prototype around regulated lender collections by adding borrower personas, DPD/recovery metrics, richer Banking Hand lifecycle data, approval evidence, SSE-style run events, immutable audit metadata, integrations, and API contract mock data.
-- Updated primary navigation to Portfolio, Data & Protocol Hub, AI Coworker, Banking Hands, Approvals, Runs, Audit, Integrations, and System Design, with operating mode and role context visible in the shell.
-- Added missing `/audit`, `/integrations`, `/system-design`, `/coworker`, and `/protocol-hub` routes, and redirected `/` to the portfolio-first home experience.
+- Updated primary navigation to Portfolio, Data & Protocol Hub, AI Coworker, Workflows, Banking Hands, Approvals, Runs, Audit, and Integrations, with operating mode and role context visible in the shell.
+- Added missing `/audit`, `/integrations`, `/workflows`, `/coworker`, and `/protocol-hub` routes, and redirected `/` to the portfolio-first home experience.
 - Expanded Portfolio, Data & Protocol Hub, AI Coworker, Banking Hands, Hand Detail, Approvals, Runs, and Run Detail screens to show regulated collections workflow, governance gates, borrower outreach logic, and audit evidence.
-- Added an in-app System Design page covering Kyne's six Agent OS layers, architecture diagram, outreach lifecycle flow, backend services, entities, API table, REST vs SSE, scaling, deployment, RBAC, and security/compliance principles.
+- Added written system design coverage for Kyne's six Agent OS layers, architecture diagram, outreach lifecycle flow, backend services, entities, API table, REST vs SSE, scaling, deployment, RBAC, and security/compliance principles.
 - Synced `docs/system-design.md` with the new IA, routes, entities, service boundaries, API contract coverage, real-time strategy, and backend governance invariant.
 - Generated a submission-ready system design explanation PDF with the supplied architecture image, normalized backend explanation text, page numbering, and visual rendering checks.
+- Fixed the shared FlowRibbon readiness layout so SMS, Email, Voice, and Audit status tiles remain readable on login and AI coworker pages.
+- Removed the in-app System Design page from the product platform, exposed the React Flow workflow canvas through `/workflows`, and updated RBAC/navigation/docs accordingly.
 
 ## In Progress
 

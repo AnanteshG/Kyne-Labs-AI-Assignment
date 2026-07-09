@@ -200,9 +200,9 @@ In week one as frontend engineer, I would build the production data model for Ba
 
 ## 6. Current In-App Architecture Update
 
-The app now exposes the assignment-critical routes directly in the product shell: `/portfolio`, `/data` with `/protocol-hub` alias, `/workspace` with `/coworker` alias, `/hands`, `/hands/[id]`, `/approvals`, `/runs`, `/runs/[id]`, `/audit`, `/integrations`, and `/system-design`.
+The app now exposes the operator-facing routes directly in the product shell: `/portfolio`, `/data` with `/protocol-hub` alias, `/workspace` with `/coworker` alias, `/workflows`, `/hands`, `/hands/[id]`, `/approvals`, `/runs`, `/runs/[id]`, `/audit`, and `/integrations`.
 
-The in-app System Design page documents Kyne as a six-layer Agent OS:
+The written system design documentation describes Kyne as a six-layer Agent OS, while the app shell stays focused on screens real operators, compliance users, and admins would use:
 
 - Interaction Layer: web app, voice/SMS/email adapters, conversation timeline, run monitor, SSE updates, and notifications.
 - Orchestration Layer: Banking Hand lifecycle, workflow engine, agent coordination, HITL approvals, scheduling, escalations, and queue workers.
@@ -215,6 +215,6 @@ The documented production services are Portfolio Intelligence, Borrower / Case, 
 
 The core data model now includes Tenant, User, Role, Borrower, Account, Case, PortfolioUpload, PolicyPack, ProtocolRule, BorrowerPersona, BankingHand, HandVersion, Approval, Run, RunEvent, ConversationMessage, AuditEvent, IntegrationConnection, and Outcome.
 
-The API contract table on `/system-design` includes portfolio, borrowers, uploads, Protocol Hub, coworker, hands, approvals, runs, SSE events, audit history, and audit export endpoints. REST is used for standard reads/mutations. SSE is used for server-to-client streams such as AI artifact generation, policy-check progress, run progress, message sent/failed, borrower replies, approval notifications, and escalations.
+The documented API contract includes portfolio, borrowers, uploads, Protocol Hub, coworker, hands, approvals, runs, SSE events, audit history, and audit export endpoints. REST is used for standard reads/mutations. SSE is used for server-to-client streams such as AI artifact generation, policy-check progress, run progress, message sent/failed, borrower replies, approval notifications, and escalations.
 
 Critical backend invariant: the AI can recommend and generate actions, but the backend controls whether those actions are allowed. Policy checks, consent checks, DNC checks, approval gates, tenant isolation, and audit logging are enforced server-side before any borrower-facing step runs.
